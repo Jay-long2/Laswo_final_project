@@ -29,12 +29,14 @@ SECRET_KEY = 'django-insecure-0ps8ozig4tixw-f-*ad0=79%aea=%i2$g7+3kw3mkhrmgs!)()
 
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
+ALLOWED_HOSTS = ['laswo-final-project.onrender.com']
+
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
 
 
 # Application definition
