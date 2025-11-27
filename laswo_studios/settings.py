@@ -29,9 +29,17 @@ SECRET_KEY = 'django-insecure-0ps8ozig4tixw-f-*ad0=79%aea=%i2$g7+3kw3mkhrmgs!)()
 
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['laswo-final-project.onrender.com']
+# ALLOWED_HOSTS
+ALLOWED_HOSTS = [
+    'laswo-final-project.onrender.com',  # Your Render domain
+    'localhost',
+    '127.0.0.1',
+]
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+# Auto-detect Render external hostname
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
