@@ -1,0 +1,178 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}Our Projects - Laswo Studios{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-5xl font-bold mb-6">Our Projects</h1>
+        <p class="text-xl text-primary-100 max-w-3xl mx-auto">
+            Explore our portfolio of completed projects and see how we've transformed spaces for our clients.
+        </p>
+    </div>
+</section>
+
+<!-- Filters Section -->
+<section class="py-8 bg-white border-b">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-wrap gap-4 items-center justify-between">
+            <div class="flex flex-wrap gap-4">
+                <select id="service-filter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500">
+                    <option value="">All Services</option>
+                    <option value="renovation" {% if active_filters.service == 'renovation' %}selected{% endif %}>Renovations</option>
+                    <option value="landscaping" {% if active_filters.service == 'landscaping' %}selected{% endif %}>Landscaping</option>
+                    <option value="roofing" {% if active_filters.service == 'roofing' %}selected{% endif %}>Roofing</option>
+                </select>
+                
+                <select id="status-filter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500">
+                    <option value="">All Status</option>
+                    <option value="completed" {% if active_filters.status == 'completed' %}selected{% endif %}>Completed</option>
+                    <option value="in_progress" {% if active_filters.status == 'in_progress' %}selected{% endif %}>In Progress</option>
+                </select>
+            </div>
+            
+            <div class="text-sm text-gray-600">
+                {{ projects.count }} project{{ projects.count|pluralize }} found
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Projects -->
+{% if featured_projects %}
+<section class="py-12 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Featured Projects</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {% for project in featured_projects %}
+            <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover-lift">
+                <div class="relative h-80">
+                    <img src="{{ project.featured_image.url }}" 
+                         alt="{{ project.title }}"
+                         class="w-full h-full object-cover">
+                    <div class="absolute top-4 left-4">
+                        <span class="bg-secondary-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                            Featured
+                        </span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-semibold">
+                            {{ project.service.title }}
+                        </span>
+                        <span class="text-sm text-gray-500">{{ project.completion_date|date:"M Y" }}</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3">{{ project.title }}</h3>
+                    <p class="text-gray-600 mb-4">{{ project.short_description }}</p>
+                    <a href="{% url 'projects:detail' project.slug %}" 
+                       class="text-primary-600 font-semibold hover:text-primary-700 inline-flex items-center">
+                        View Project
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- All Projects Grid -->
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">All Projects</h2>
+        
+        {% if projects %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for project in projects %}
+            <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover-lift border border-gray-100">
+                <div class="relative h-64">
+                    <img src="{{ project.featured_image.url }}" 
+                         alt="{{ project.title }}"
+                         class="w-full h-full object-cover">
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-white/90 backdrop-blur-sm text-gray-700 px-3 py-1 rounded-full text-sm font-semibold">
+                            {{ project.get_status_display }}
+                        </span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-semibold">
+                            {{ project.service.title }}
+                        </span>
+                        {% if project.budget %}
+                        <span class="text-sm font-semibold text-gray-900">${{ project.budget }}</span>
+                        {% endif %}
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">{{ project.title }}</h3>
+                    <p class="text-gray-600 mb-4 text-sm">{{ project.short_description }}</p>
+                    <div class="flex items-center justify-between">
+                        <a href="{% url 'projects:detail' project.slug %}" 
+                           class="text-primary-600 font-semibold hover:text-primary-700 inline-flex items-center text-sm">
+                            View Details
+                            <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                        {% if project.location %}
+                        <span class="text-xs text-gray-500 flex items-center">
+                            <i class="fas fa-map-marker-alt mr-1"></i>
+                            {{ project.location }}
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-12">
+            <i class="fas fa-search text-6xl text-gray-300 mb-4"></i>
+            <h3 class="text-2xl font-bold text-gray-600 mb-2">No projects found</h3>
+            <p class="text-gray-500">Try adjusting your filters to see more results.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-20 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-4xl font-bold text-gray-900 mb-6">Ready to Start Your Project?</h2>
+        <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            Let us help bring your vision to life. Contact us for a free consultation.
+        </p>
+        <a href="{% url 'pages:contact' %}" 
+           class="bg-primary-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-primary-700 transition-colors shadow-lg inline-flex items-center">
+            <i class="fas fa-calendar-check mr-2"></i>
+            Start Your Project
+        </a>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const serviceFilter = document.getElementById('service-filter');
+    const statusFilter = document.getElementById('status-filter');
+    
+    function updateFilters() {
+        const params = new URLSearchParams();
+        
+        if (serviceFilter.value) {
+            params.set('service', serviceFilter.value);
+        }
+        
+        if (statusFilter.value) {
+            params.set('status', statusFilter.value);
+        }
+        
+        const queryString = params.toString();
+        window.location.href = queryString ? `?${queryString}` : '.';
+    }
+    
+    serviceFilter.addEventListener('change', updateFilters);
+    statusFilter.addEventListener('change', updateFilters);
+});
+</script>
+{% endblock %}

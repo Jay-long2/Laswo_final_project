@@ -1,0 +1,1 @@
+web: gunicorn laswo_studios.wsgi:application

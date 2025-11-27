@@ -1,0 +1,166 @@
+/* Laswo Studios Admin Custom Styles */
+
+/* Header Improvements */
+#header {
+    background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%) !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+#branding h1 {
+    font-weight: 700;
+    font-size: 1.4em;
+}
+
+#branding h1 a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Button Enhancements */
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+    border-radius: 6px !important;
+    font-weight: 600 !important;
+    text-transform: none !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+.button:hover, input[type=submit]:hover, input[type=button]:hover, 
+.submit-row input:hover, a.button:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important;
+}
+
+/* Module Cards */
+.module {
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+    border: none !important;
+}
+
+.module h2, .module caption, .inline-group h2 {
+    background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%) !important;
+    font-weight: 600 !important;
+    padding: 12px 15px !important;
+}
+
+/* Table Improvements */
+#changelist .results table {
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+}
+
+#changelist .results th {
+    background: #0ea5e9 !important;
+    font-weight: 600 !important;
+    padding: 12px 15px !important;
+}
+
+#changelist .results td {
+    padding: 10px 15px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+}
+
+/* Form Field Styling */
+input[type=text], input[type=password], input[type=email], input[type=url],
+input[type=number], textarea, select, .vTextField {
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+    padding: 8px 12px !important;
+    transition: all 0.3s ease !important;
+}
+
+input[type=text]:focus, input[type=password]:focus, input[type=email]:focus,
+input[type=url]:focus, input[type=number]:focus, textarea:focus, select:focus,
+.vTextField:focus {
+    border-color: #0ea5e9 !important;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1) !important;
+    outline: none !important;
+}
+
+/* Breadcrumb Styling */
+.breadcrumbs {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+    padding: 12px 15px !important;
+    margin-bottom: 20px !important;
+}
+
+/* Object Tools */
+.object-tools {
+    margin-top: 0 !important;
+}
+
+.object-tools li {
+    margin-bottom: 5px !important;
+}
+
+.object-tools a {
+    background: #0ea5e9 !important;
+    border-radius: 6px !important;
+    padding: 8px 15px !important;
+    font-weight: 600 !important;
+}
+
+.object-tools a:hover {
+    background: #0369a1 !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Login Page Styling */
+.login .form-row {
+    margin-bottom: 15px !important;
+}
+
+.login .submit-row {
+    padding: 0 !important;
+}
+
+/* Responsive Improvements */
+@media (max-width: 767px) {
+    #header {
+        padding: 10px !important;
+    }
+    
+    #branding h1 {
+        font-size: 1.2em !important;
+    }
+    
+    .quick-actions {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* Custom Icons for Apps */
+#content-main .module h2 a::before {
+    margin-right: 8px;
+}
+
+/* Blog App Icon */
+.app-blog .module h2 a::before {
+    content: "📝 ";
+}
+
+/* Projects App Icon */
+.app-projects .module h2 a::before {
+    content: "🏗️ ";
+}
+
+/* Services App Icon */
+.app-services .module h2 a::before {
+    content: "🔧 ";
+}
+
+/* Pages App Icon */
+.app-pages .module h2 a::before {
+    content: "📄 ";
+}
+
+/* Auth App Icon */
+.app-auth .module h2 a::before {
+    content: "👥 ";
+}

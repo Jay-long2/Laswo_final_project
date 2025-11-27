@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Laswo Studios - Construction Excellence{% endblock %}</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        secondary: {
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="font-sans bg-gray-50">
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-white/90 backdrop-blur-md z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="{% url 'pages:home' %}" class="text-2xl font-bold text-primary-700 flex items-center">
+                        <i class="fas fa-building mr-2"></i>
+                        Laswo Studios
+                    </a>
+                </div>
+
+                <!-- In desktop menu -->
+<!-- In desktop menu -->
+<div class="hidden md:flex items-center space-x-8">
+    <a href="{% url 'pages:home' %}" class="text-gray-700 hover:text-primary-600 font-medium transition-colors">Home</a>
+    <a href="{% url 'services:list' %}" class="text-gray-700 hover:text-primary-600 font-medium transition-colors">Services</a>
+    <a href="{% url 'projects:list' %}" class="text-gray-700 hover:text-primary-600 font-medium transition-colors">Projects</a>
+    <a href="{% url 'blog:list' %}" class="text-gray-700 hover:text-primary-600 font-medium transition-colors">Blog</a>
+    <a href="{% url 'pages:about' %}" class="text-gray-700 hover:text-primary-600 font-medium transition-colors">About</a>
+    <a href="{% url 'pages:contact' %}" class="bg-primary-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-primary-700 transition-colors shadow-lg hover:shadow-xl">
+        Get Quote
+    </a>
+</div>
+
+<!-- In mobile menu -->
+<div id="mobile-menu" class="hidden md:hidden py-4 border-t border-gray-200">
+    <div class="flex flex-col space-y-4">
+        <a href="{% url 'pages:home' %}" class="text-gray-700 hover:text-primary-600 font-medium">Home</a>
+        <a href="{% url 'services:list' %}" class="text-gray-700 hover:text-primary-600 font-medium">Services</a>
+        <a href="{% url 'projects:list' %}" class="text-gray-700 hover:text-primary-600 font-medium">Projects</a>
+        <a href="{% url 'blog:list' %}" class="text-gray-700 hover:text-primary-600 font-medium">Blog</a>
+        <a href="{% url 'pages:about' %}" class="text-gray-700 hover:text-primary-600 font-medium">About</a>
+        <a href="{% url 'pages:contact' %}" class="bg-primary-600 text-white px-4 py-2 rounded-lg font-medium text-center">Get Quote</a>
+
+            <!-- Admin Login Link - Only show if user is staff -->
+    {% if user.is_staff %}
+    <a href="{% url 'admin:index' %}" class="text-gray-700 hover:text-primary-600 font-medium transition-colors">
+        <i class="fas fa-cog mr-1"></i>Admin
+    </a>
+    {% endif %}
+
+    </div>
+</div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-16">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Company Info -->
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 flex items-center">
+                        <i class="fas fa-building mr-2"></i>
+                        Laswo Studios
+                    </h3>
+                    <p class="text-gray-400 mb-6">
+                        Transforming spaces with exceptional craftsmanship and attention to detail.
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-semibold text-lg mb-4">Quick Links</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="{% url 'pages:home' %}" class="hover:text-white transition-colors">Home</a></li>
+                        <li><a href="{% url 'pages:about' %}" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="{% url 'pages:contact' %}" class="hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h4 class="font-semibold text-lg mb-4">Contact Info</h4>
+                    <div class="text-gray-400 space-y-3">
+                        <div class="flex items-center">
+                            <i class="fas fa-phone mr-3 text-primary-400"></i>
+                            <span>+254 728 145 945</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-envelope mr-3 text-primary-400"></i>
+                            <span>info@laswostudios.com</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-3 text-primary-400"></i>
+                            <span>123 Construction Ave, City</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Laswo Studios. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button')?.addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+    </script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

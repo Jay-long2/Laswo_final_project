@@ -1,0 +1,248 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}Blog - Construction Insights & News - Laswo Studios{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-5xl font-bold mb-6">Construction Blog</h1>
+        <p class="text-xl text-primary-100 max-w-3xl mx-auto">
+            Expert insights, industry news, and tips for your construction and renovation projects.
+        </p>
+    </div>
+</section>
+
+<!-- Search & Filters -->
+<section class="py-8 bg-white border-b">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col lg:flex-row gap-6 items-center justify-between">
+            <!-- Search Form -->
+            <div class="flex-1 w-full lg:max-w-md">
+                <form method="get" class="relative">
+                    <input type="text" 
+                           name="q" 
+                           value="{{ active_filters.query }}"
+                           placeholder="Search articles..." 
+                           class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                </form>
+            </div>
+            
+            <!-- Category Filter -->
+            <div class="flex flex-wrap gap-4 items-center">
+                <select name="category" onchange="if(this.value) window.location.href='?category='+this.value" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500">
+                    <option value="">All Categories</option>
+                    {% for cat in categories %}
+                    <option value="{{ cat.slug }}" {% if active_filters.category == cat.slug %}selected{% endif %}>
+                        {{ cat.name }} ({{ cat.post_count }})
+                    </option>
+                    {% endfor %}
+                </select>
+                
+                <a href="{% url 'blog:list' %}" class="text-gray-600 hover:text-primary-600 text-sm">
+                    Clear Filters
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Posts -->
+{% if featured_posts %}
+<section class="py-12 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Featured Articles</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {% for post in featured_posts %}
+            <article class="bg-white rounded-2xl overflow-hidden shadow-lg hover-lift">
+                <div class="relative h-48">
+                    {% if post.featured_image %}
+                    <img src="{{ post.featured_image.url }}" 
+                         alt="{{ post.title }}"
+                         class="w-full h-full object-cover">
+                    {% else %}
+                    <div class="w-full h-full bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center">
+                        <i class="fas fa-newspaper text-white text-4xl"></i>
+                    </div>
+                    {% endif %}
+                    <div class="absolute top-4 left-4">
+                        <span class="bg-secondary-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                            Featured
+                        </span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-semibold">
+                            {{ post.category.name }}
+                        </span>
+                        <span class="text-sm text-gray-500">{{ post.published_at|date:"M j, Y" }}</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3">{{ post.title }}</h3>
+                    <p class="text-gray-600 mb-4">{{ post.excerpt }}</p>
+                    <div class="flex items-center justify-between">
+                        <a href="{% url 'blog:detail' post.slug %}" 
+                           class="text-primary-600 font-semibold hover:text-primary-700 inline-flex items-center">
+                            Read More
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                        <span class="text-sm text-gray-500">{{ post.reading_time }}</span>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- All Posts -->
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-12">
+            <!-- Main Content -->
+            <div class="lg:col-span-3">
+                <h2 class="text-3xl font-bold text-gray-900 mb-8">Latest Articles</h2>
+                
+                {% if posts %}
+                <div class="space-y-8">
+                    {% for post in posts %}
+                    <article class="bg-white rounded-2xl p-8 border border-gray-100 hover-lift">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            {% if post.featured_image %}
+                            <div class="md:col-span-1">
+                                <img src="{{ post.featured_image.url }}" 
+                                     alt="{{ post.title }}"
+                                     class="w-full h-48 object-cover rounded-xl">
+                            </div>
+                            {% endif %}
+                            <div class="md:col-span-{% if post.featured_image %}2{% else %}3{% endif %}">
+                                <div class="flex items-center space-x-4 mb-3">
+                                    <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-semibold">
+                                        {{ post.category.name }}
+                                    </span>
+                                    <span class="text-sm text-gray-500">{{ post.published_at|date:"M j, Y" }}</span>
+                                    <span class="text-sm text-gray-500">{{ post.reading_time }}</span>
+                                </div>
+                                <h3 class="text-2xl font-bold text-gray-900 mb-3">{{ post.title }}</h3>
+                                <p class="text-gray-600 mb-4">{{ post.excerpt }}</p>
+                                <div class="flex items-center justify-between">
+                                    <a href="{% url 'blog:detail' post.slug %}" 
+                                       class="text-primary-600 font-semibold hover:text-primary-700 inline-flex items-center">
+                                        Read Article
+                                        <i class="fas fa-arrow-right ml-2"></i>
+                                    </a>
+                                    <div class="flex items-center space-x-2 text-sm text-gray-500">
+                                        <i class="fas fa-eye"></i>
+                                        <span>{{ post.view_count }} views</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+
+                <!-- Pagination -->
+                {% if posts.has_other_pages %}
+                <div class="mt-12 flex justify-center">
+                    <nav class="flex items-center space-x-2">
+                        {% if posts.has_previous %}
+                        <a href="?page={{ posts.previous_page_number }}{% if active_filters.query %}&q={{ active_filters.query }}{% endif %}{% if active_filters.category %}&category={{ active_filters.category }}{% endif %}" 
+                           class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                            Previous
+                        </a>
+                        {% endif %}
+
+                        {% for num in posts.paginator.page_range %}
+                            {% if posts.number == num %}
+                            <span class="px-4 py-2 bg-primary-600 text-white rounded-lg">{{ num }}</span>
+                            {% else %}
+                            <a href="?page={{ num }}{% if active_filters.query %}&q={{ active_filters.query }}{% endif %}{% if active_filters.category %}&category={{ active_filters.category }}{% endif %}" 
+                               class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                                {{ num }}
+                            </a>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if posts.has_next %}
+                        <a href="?page={{ posts.next_page_number }}{% if active_filters.query %}&q={{ active_filters.query }}{% endif %}{% if active_filters.category %}&category={{ active_filters.category }}{% endif %}" 
+                           class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                            Next
+                        </a>
+                        {% endif %}
+                    </nav>
+                </div>
+                {% endif %}
+
+                {% else %}
+                <div class="text-center py-12">
+                    <i class="fas fa-search text-6xl text-gray-300 mb-4"></i>
+                    <h3 class="text-2xl font-bold text-gray-600 mb-2">No articles found</h3>
+                    <p class="text-gray-500">Try adjusting your search or filters.</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Sidebar -->
+            <div class="lg:col-span-1 space-y-8">
+                <!-- Categories -->
+                <div class="bg-gray-50 rounded-2xl p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Categories</h3>
+                    <ul class="space-y-2">
+                        {% for cat in categories %}
+                        <li>
+                            <a href="{% url 'blog:category' cat.slug %}" 
+                               class="flex justify-between items-center text-gray-600 hover:text-primary-600 transition-colors">
+                                <span>{{ cat.name }}</span>
+                                <span class="bg-primary-100 text-primary-800 px-2 py-1 rounded-full text-xs">
+                                    {{ cat.post_count }}
+                                </span>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- Recent Posts -->
+                <div class="bg-gray-50 rounded-2xl p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Recent Posts</h3>
+                    <ul class="space-y-4">
+                        {% for post in recent_posts %}
+                        <li>
+                            <a href="{% url 'blog:detail' post.slug %}" class="group">
+                                <h4 class="font-semibold text-gray-900 group-hover:text-primary-600 transition-colors mb-1">
+                                    {{ post.title }}
+                                </h4>
+                                <p class="text-sm text-gray-500">{{ post.published_at|date:"M j, Y" }}</p>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="bg-primary-600 text-white rounded-2xl p-6">
+                    <h3 class="text-xl font-bold mb-4">Stay Updated</h3>
+                    <p class="text-primary-100 mb-4">Get the latest construction tips and industry insights.</p>
+                    <form method="post" action="{% url 'blog:newsletter_subscribe' %}">
+                        {% csrf_token %}
+                        <div class="space-y-3">
+                            <input type="email" 
+                                   name="email" 
+                                   placeholder="Enter your email" 
+                                   required
+                                   class="w-full px-4 py-2 rounded-lg text-gray-900 focus:ring-2 focus:ring-secondary-500">
+                            <button type="submit" 
+                                    class="w-full bg-secondary-500 text-white py-2 rounded-lg font-semibold hover:bg-secondary-600 transition-colors">
+                                Subscribe
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

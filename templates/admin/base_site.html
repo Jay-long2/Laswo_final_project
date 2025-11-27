@@ -1,0 +1,226 @@
+{% extends "admin/base.html" %}
+
+{% load static %}
+
+{% block title %}{{ title }} | Laswo Studios Admin{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+        <img src="{% static 'images/laswo-logo.svg' %}" height="40px" alt="Laswo Studios" style="margin-right: 10px;">
+        Laswo Studios Administration
+    </a>
+</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block extrastyle %}
+<style>
+:root {
+    --primary: #0ea5e9;
+    --secondary: #f59e0b;
+    --primary-dark: #0369a1;
+    --secondary-dark: #d97706;
+}
+
+/* Header Styling */
+#header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+}
+
+#branding h1 {
+    color: white;
+    font-weight: 600;
+}
+
+#branding h1 a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+/* Button Styling */
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.button:hover, input[type=submit]:hover, input[type=button]:hover, .submit-row input:hover, a.button:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.button.default, input[type=submit].default, .submit-row input.default {
+    background: var(--secondary);
+}
+
+.button.default:hover, input[type=submit].default:hover, .submit-row input.default:hover {
+    background: var(--secondary-dark);
+}
+
+/* Module Styling */
+.module h2, .module caption, .inline-group h2 {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    border-radius: 6px 6px 0 0;
+}
+
+/* Table Styling */
+#changelist .results table {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+#changelist .results th {
+    background: var(--primary);
+    color: white;
+    font-weight: 600;
+}
+
+#changelist .results tr.row1 {
+    background: #f8fafc;
+}
+
+#changelist .results tr.row2 {
+    background: white;
+}
+
+#changelist .results tr:hover {
+    background: #f0f9ff;
+}
+
+/* Sidebar Styling */
+#user-tools {
+    color: white;
+    font-weight: 500;
+}
+
+#user-tools a {
+    color: white;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+
+#user-tools a:hover {
+    color: var(--secondary);
+    border-bottom-color: var(--secondary);
+}
+
+/* Form Styling */
+input[type=text], input[type=password], input[type=email], input[type=url], 
+input[type=number], textarea, select, .vTextField {
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 8px 12px;
+    transition: all 0.3s ease;
+}
+
+input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, 
+input[type=url]:focus, input[type=number]:focus, textarea:focus, select:focus, 
+.vTextField:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+    outline: none;
+}
+
+/* Breadcrumb Styling */
+.breadcrumbs {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 10px 15px;
+}
+
+/* Recent Actions */
+.module#recent-actions {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.module#recent-actions h2 {
+    border-radius: 8px 8px 0 0;
+}
+
+/* Dashboard Styling */
+.dashboard .module table th {
+    background: var(--primary);
+    color: white;
+}
+
+.dashboard .module table td {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.dashboard .module table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Custom Welcome Message */
+.welcome-message {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border: 1px solid #bae6fd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.welcome-message h3 {
+    color: var(--primary-dark);
+    margin-bottom: 10px;
+}
+
+.welcome-message p {
+    color: #475569;
+    margin: 0;
+}
+
+/* Quick Actions */
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.quick-action-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    color: #334155;
+    transition: all 0.3s ease;
+}
+
+.quick-action-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    color: var(--primary-dark);
+    text-decoration: none;
+}
+
+.quick-action-card i {
+    font-size: 24px;
+    color: var(--primary);
+    margin-bottom: 10px;
+    display: block;
+}
+
+.quick-action-card h4 {
+    margin: 0;
+    font-weight: 600;
+}
+</style>
+{% endblock %}

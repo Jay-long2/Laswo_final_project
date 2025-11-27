@@ -1,0 +1,96 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+/* Custom styles for dashboard */
+</style>
+{% endblock %}
+
+{% block coltype %}colMS{% endblock %}
+
+{% block bodyclass %}{{ block.super }} dashboard{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+<!-- Welcome Message -->
+<div class="welcome-message">
+    <h3>🏗️ Welcome to Laswo Studios Admin</h3>
+    <p>Manage your construction business efficiently with our customized admin panel</p>
+</div>
+
+<!-- Quick Actions -->
+<div class="quick-actions">
+    <a href="/admin/blog/post/add/" class="quick-action-card">
+        <i class="fas fa-edit"></i>
+        <h4>Write Blog Post</h4>
+        <small>Share construction insights</small>
+    </a>
+    <a href="/admin/projects/project/add/" class="quick-action-card">
+        <i class="fas fa-project-diagram"></i>
+        <h4>Add Project</h4>
+        <small>Showcase completed work</small>
+    </a>
+    <a href="/admin/services/service/add/" class="quick-action-card">
+        <i class="fas fa-tools"></i>
+        <h4>Manage Services</h4>
+        <small>Update service offerings</small>
+    </a>
+    <a href="/admin/blog/comment/" class="quick-action-card">
+        <i class="fas fa-comments"></i>
+        <h4>Moderate Comments</h4>
+        <small>Review blog comments</small>
+    </a>
+</div>
+
+<!-- Original Django Admin Content -->
+<div id="content-main">
+    {% include "admin/app_list.html" with app_list=app_list show_changelinks=True %}
+</div>
+{% endblock %}
+
+{% block sidebar %}
+<div id="content-related">
+    <!-- Recent Actions -->
+    <div class="module" id="recent-actions-module">
+        <h2>{% translate 'Recent actions' %}</h2>
+        <h3>{% translate 'My actions' %}</h3>
+            {% load log %}
+            {% get_admin_log 10 as admin_log for_user user %}
+            {% if not admin_log %}
+            <p>{% translate 'None available' %}</p>
+            {% else %}
+            <ul class="actionlist">
+            {% for entry in admin_log %}
+            <li class="{% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}">
+                {% if entry.is_deletion or not entry.get_admin_url %}
+                    {{ entry.object_repr }}
+                {% else %}
+                    <a href="{{ entry.get_admin_url }}">{{ entry.object_repr }}</a>
+                {% endif %}
+                <br>
+                {% if entry.content_type %}
+                    <span class="mini quiet">{% filter capfirst %}{{ entry.content_type.name }}{% endfilter %}</span>
+                {% else %}
+                    <span class="mini quiet">{% translate 'Unknown content' %}</span>
+                {% endif %}
+            </li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+    </div>
+    
+    <!-- Quick Stats -->
+    <div class="module">
+        <h2>📊 Quick Stats</h2>
+        <ul>
+            <li><strong>Blog Posts:</strong> {{ blog_count }} published</li>
+            <li><strong>Projects:</strong> {{ project_count }} completed</li>
+            <li><strong>Services:</strong> {{ service_count }} active</li>
+            <li><strong>Comments:</strong> {{ comment_count }} pending review</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

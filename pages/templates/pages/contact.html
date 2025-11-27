@@ -1,0 +1,153 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}Contact Us - Laswo Studios{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-5xl font-bold mb-6">Get In Touch</h1>
+        <p class="text-xl text-primary-100 max-w-3xl mx-auto">
+            Ready to start your project? Contact us for a free consultation and quote.
+        </p>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <!-- Contact Info -->
+            <div>
+                <h2 class="text-4xl font-bold text-gray-900 mb-8">Let's Talk About Your Project</h2>
+                
+                <div class="space-y-6 mb-8">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-phone text-primary-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 text-lg">Call Us</h3>
+                            <p class="text-gray-600">+254 728-145-945</p>
+                            <p class="text-sm text-gray-500">Mon-Fri from 8am to 6pm</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-envelope text-primary-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 text-lg">Email Us</h3>
+                            <p class="text-gray-600">info@laswostudios.com</p>
+                            <p class="text-sm text-gray-500">We'll respond within 24 hours</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-map-marker-alt text-primary-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 text-lg">Visit Us</h3>
+                            <p class="text-gray-600">123 Construction Avenue<br>Suite 100<br>City, State 12345</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Areas -->
+                <div class="bg-gray-50 rounded-2xl p-6">
+                    <h3 class="font-semibold text-gray-900 text-lg mb-4">Service Areas</h3>
+                    <div class="grid grid-cols-2 gap-2 text-sm text-gray-600">
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-primary-500 mr-2"></i>
+                            Residential Construction
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-primary-500 mr-2"></i>
+                            Commercial Renovation
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-primary-500 mr-2"></i>
+                            Landscaping Design
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-primary-500 mr-2"></i>
+                            Roofing Services
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="bg-gray-50 rounded-2xl p-8">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h3>
+                <form class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label for="first-name" class="block text-sm font-medium text-gray-700 mb-2">First Name</label>
+                            <input type="text" id="first-name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label for="last-name" class="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+                            <input type="text" id="last-name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                        <input type="email" id="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                    </div>
+
+                    <div>
+                        <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                        <input type="tel" id="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                    </div>
+
+                    <div>
+                        <label for="service" class="block text-sm font-medium text-gray-700 mb-2">Service Interested In</label>
+                        <select id="service" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                            <option value="">Select a service</option>
+                            <option value="renovation">House Renovations</option>
+                            <option value="landscaping">Landscaping</option>
+                            <option value="roofing">Roofing Solutions</option>
+                            <option value="other">Other Construction Services</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Project Details</label>
+                        <textarea id="message" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="Tell us about your project..."></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full bg-primary-600 text-white py-4 rounded-lg font-semibold hover:bg-primary-700 transition-colors shadow-lg hover:shadow-xl">
+                        <i class="fas fa-paper-plane mr-2"></i>
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Map Section -->
+<section class="py-20 bg-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-gray-900 mb-4">Find Us</h2>
+            <p class="text-xl text-gray-600">Visit our office or give us a call</p>
+        </div>
+        
+        <!-- Placeholder for Map -->
+        <div class="bg-white rounded-2xl p-8 text-center shadow-sm">
+            <div class="w-full h-64 bg-gradient-to-br from-primary-50 to-secondary-50 rounded-xl flex items-center justify-center">
+                <div class="text-center">
+                    <i class="fas fa-map-marked-alt text-6xl text-primary-500 mb-4"></i>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Interactive Map</h3>
+                    <p class="text-gray-600">Map integration coming soon</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
