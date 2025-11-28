@@ -81,6 +81,14 @@
 </div>
 
 <!-- In mobile menu -->
+<!-- Mobile menu button -->
+<div class="md:hidden">
+    <button id="mobile-menu-button" class="text-gray-700 focus:outline-none">
+        <i class="fas fa-bars text-xl"></i>
+    </button>
+</div>
+
+<!-- Mobile Menu -->
 <div id="mobile-menu" class="hidden md:hidden py-4 border-t border-gray-200">
     <div class="flex flex-col space-y-4">
         <a href="{% url 'pages:home' %}" class="text-gray-700 hover:text-primary-600 font-medium">Home</a>
@@ -89,7 +97,8 @@
         <a href="{% url 'blog:list' %}" class="text-gray-700 hover:text-primary-600 font-medium">Blog</a>
         <a href="{% url 'pages:about' %}" class="text-gray-700 hover:text-primary-600 font-medium">About</a>
         <a href="{% url 'pages:contact' %}" class="bg-primary-600 text-white px-4 py-2 rounded-lg font-medium text-center">Get Quote</a>
-
+    </div>
+</div>
             <!-- Admin Login Link - Only show if user is staff -->
     {% if user.is_staff %}
     <a href="{% url 'admin:index' %}" class="text-gray-700 hover:text-primary-600 font-medium transition-colors">
