@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Laswo Studios - Construction Excellence{% endblock %}</title>
+    <title>{% block title %}Laswo Studios - Premium Construction Services{% endblock %}</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -17,6 +17,9 @@
                         primary: {
                             50: '#f0f9ff',
                             100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
                             500: '#0ea5e9',
                             600: '#0284c7',
                             700: '#0369a1',
@@ -24,12 +27,34 @@
                             900: '#0c4a6e',
                         },
                         secondary: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            300: '#fcd34d',
+                            400: '#fbbf24',
                             500: '#f59e0b',
                             600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e',
+                            900: '#78350f',
+                        },
+                        accent: {
+                            500: '#10b981',
+                            600: '#059669',
                         }
                     },
                     fontFamily: {
                         'sans': ['Inter', 'system-ui', 'sans-serif'],
+                        'heading': ['Poppins', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-in-out',
+                        'slide-up': 'slideUp 0.8s ease-out',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                        'construction-pattern': "url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%230ea5e9\" fill-opacity=\"0.05\"%3E%3Cpath d=\"M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')",
                     }
                 }
             }
@@ -40,74 +65,159 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
+    <!-- Base Styles -->
     <style>
-        .hover-lift {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        .animate-slide-up {
+            animation: slideUp 1s ease-out;
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
         .hover-lift:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, #0ea5e9 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .bg-gradient-premium {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .bg-gradient-sunset {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .bg-gradient-ocean {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #0ea5e9 0%, #f59e0b 100%);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #0284c7 0%, #d97706 100%);
         }
     </style>
     
     {% block extra_css %}{% endblock %}
 </head>
 <body class="font-sans bg-gray-50">
-    <!-- Navigation -->
-    <nav class="fixed w-full bg-white/90 backdrop-blur-md z-50 shadow-sm">
+    <!-- Enhanced Navigation -->
+    <nav class="fixed w-full bg-white/95 backdrop-blur-md z-50 shadow-lg border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
                 <!-- Logo -->
                 <div class="flex items-center">
-                    <a href="{% url 'pages:home' %}" class="text-2xl font-bold text-primary-700 flex items-center">
-                        <i class="fas fa-building mr-2"></i>
-                        Laswo Studios
+                    <a href="{% url 'pages:home' %}" class="text-2xl font-heading font-bold text-primary-700 flex items-center space-x-2">
+                        <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-hammer text-white text-lg"></i>
+                        </div>
+                        <span>Laswo Studios</span>
                     </a>
                 </div>
 
-                <!-- In desktop menu -->
-<!-- In desktop menu -->
-<div class="hidden md:flex items-center space-x-8">
-    <a href="{% url 'pages:home' %}" class="text-gray-700 hover:text-primary-600 font-medium transition-colors">Home</a>
-    <a href="{% url 'services:list' %}" class="text-gray-700 hover:text-primary-600 font-medium transition-colors">Services</a>
-    <a href="{% url 'projects:list' %}" class="text-gray-700 hover:text-primary-600 font-medium transition-colors">Projects</a>
-    <a href="{% url 'blog:list' %}" class="text-gray-700 hover:text-primary-600 font-medium transition-colors">Blog</a>
-    <a href="{% url 'pages:about' %}" class="text-gray-700 hover:text-primary-600 font-medium transition-colors">About</a>
-    <a href="{% url 'pages:contact' %}" class="bg-primary-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-primary-700 transition-colors shadow-lg hover:shadow-xl">
-        Get Quote
-    </a>
-</div>
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="{% url 'pages:home' %}" class="text-gray-700 hover:text-primary-600 font-medium transition-all duration-300 hover:scale-105">Home</a>
+                    <a href="{% url 'services:list' %}" class="text-gray-700 hover:text-primary-600 font-medium transition-all duration-300 hover:scale-105">Services</a>
+                    <a href="{% url 'projects:list' %}" class="text-gray-700 hover:text-primary-600 font-medium transition-all duration-300 hover:scale-105">Projects</a>
+                    <a href="{% url 'blog:list' %}" class="text-gray-700 hover:text-primary-600 font-medium transition-all duration-300 hover:scale-105">Blog</a>
+                    <a href="{% url 'pages:about' %}" class="text-gray-700 hover:text-primary-600 font-medium transition-all duration-300 hover:scale-105">About</a>
+                    
+                    {% if user.is_staff %}
+                    <a href="{% url 'admin:index' %}" class="text-gray-700 hover:text-primary-600 font-medium transition-all duration-300 hover:scale-105">
+                        <i class="fas fa-cog mr-1"></i>Admin
+                    </a>
+                    {% endif %}
+                    
+                    <a href="{% url 'pages:contact' %}" class="bg-gradient-to-r from-primary-500 to-primary-600 text-white px-6 py-2 rounded-xl font-semibold hover:from-primary-600 hover:to-primary-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                        Get Quote
+                    </a>
+                </div>
 
-<!-- In mobile menu -->
-<!-- Mobile menu button -->
-<div class="md:hidden">
-    <button id="mobile-menu-button" class="text-gray-700 focus:outline-none">
-        <i class="fas fa-bars text-xl"></i>
-    </button>
-</div>
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-primary-600 transition-colors duration-200 p-2 rounded-lg hover:bg-gray-100">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
 
-<!-- Mobile Menu -->
-<div id="mobile-menu" class="hidden md:hidden py-4 border-t border-gray-200">
-    <div class="flex flex-col space-y-4">
-        <a href="{% url 'pages:home' %}" class="text-gray-700 hover:text-primary-600 font-medium">Home</a>
-        <a href="{% url 'services:list' %}" class="text-gray-700 hover:text-primary-600 font-medium">Services</a>
-        <a href="{% url 'projects:list' %}" class="text-gray-700 hover:text-primary-600 font-medium">Projects</a>
-        <a href="{% url 'blog:list' %}" class="text-gray-700 hover:text-primary-600 font-medium">Blog</a>
-        <a href="{% url 'pages:about' %}" class="text-gray-700 hover:text-primary-600 font-medium">About</a>
-        <a href="{% url 'pages:contact' %}" class="bg-primary-600 text-white px-4 py-2 rounded-lg font-medium text-center">Get Quote</a>
-    </div>
-</div>
-            <!-- Admin Login Link - Only show if user is staff -->
-    {% if user.is_staff %}
-    <a href="{% url 'admin:index' %}" class="text-gray-700 hover:text-primary-600 font-medium transition-colors">
-        <i class="fas fa-cog mr-1"></i>Admin
-    </a>
-    {% endif %}
-
-    </div>
-</div>
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden py-4 border-t border-gray-200 bg-white/95 backdrop-blur-md rounded-b-2xl shadow-lg">
+                <div class="flex flex-col space-y-4">
+                    <a href="{% url 'pages:home' %}" class="text-gray-700 hover:text-primary-600 font-medium py-2 px-4 rounded-lg hover:bg-primary-50 transition-all duration-200">Home</a>
+                    <a href="{% url 'services:list' %}" class="text-gray-700 hover:text-primary-600 font-medium py-2 px-4 rounded-lg hover:bg-primary-50 transition-all duration-200">Services</a>
+                    <a href="{% url 'projects:list' %}" class="text-gray-700 hover:text-primary-600 font-medium py-2 px-4 rounded-lg hover:bg-primary-50 transition-all duration-200">Projects</a>
+                    <a href="{% url 'blog:list' %}" class="text-gray-700 hover:text-primary-600 font-medium py-2 px-4 rounded-lg hover:bg-primary-50 transition-all duration-200">Blog</a>
+                    <a href="{% url 'pages:about' %}" class="text-gray-700 hover:text-primary-600 font-medium py-2 px-4 rounded-lg hover:bg-primary-50 transition-all duration-200">About</a>
+                    
+                    {% if user.is_staff %}
+                    <a href="{% url 'admin:index' %}" class="text-gray-700 hover:text-primary-600 font-medium py-2 px-4 rounded-lg hover:bg-primary-50 transition-all duration-200">
+                        <i class="fas fa-cog mr-2"></i>Admin Panel
+                    </a>
+                    {% endif %}
+                    
+                    <a href="{% url 'pages:contact' %}" class="bg-gradient-to-r from-primary-500 to-primary-600 text-white py-3 px-4 rounded-xl font-semibold text-center hover:from-primary-600 hover:to-primary-700 transition-all duration-300 shadow-lg mt-2">
+                        Get Free Quote
+                    </a>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -117,58 +227,109 @@
         {% endblock %}
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white pt-16 pb-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <!-- Enhanced Footer -->
+    <footer class="bg-gradient-to-br from-gray-900 to-gray-800 text-white pt-20 pb-8 relative overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-5 bg-construction-pattern"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <!-- Company Info -->
-                <div>
-                    <h3 class="text-2xl font-bold mb-4 flex items-center">
-                        <i class="fas fa-building mr-2"></i>
-                        Laswo Studios
-                    </h3>
-                    <p class="text-gray-400 mb-6">
-                        Transforming spaces with exceptional craftsmanship and attention to detail.
+                <div class="lg:col-span-2">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-hammer text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-heading font-bold">Laswo Studios</h3>
+                    </div>
+                    <p class="text-gray-300 mb-6 text-lg leading-relaxed">
+                        Transforming visions into exceptional living spaces. With over a decade of expertise, we build dreams with precision, quality, and unmatched craftsmanship.
                     </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center hover:bg-primary-700 transition-colors duration-200">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center hover:bg-primary-700 transition-colors duration-200">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center hover:bg-primary-700 transition-colors duration-200">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center hover:bg-primary-700 transition-colors duration-200">
+                            <i class="fab fa-pinterest-p"></i>
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Quick Links -->
                 <div>
-                    <h4 class="font-semibold text-lg mb-4">Quick Links</h4>
-                    <ul class="space-y-3 text-gray-400">
-                        <li><a href="{% url 'pages:home' %}" class="hover:text-white transition-colors">Home</a></li>
-                        <li><a href="{% url 'pages:about' %}" class="hover:text-white transition-colors">About Us</a></li>
-                        <li><a href="{% url 'pages:contact' %}" class="hover:text-white transition-colors">Contact</a></li>
+                    <h4 class="font-heading font-semibold text-lg mb-6 text-white">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="{% url 'pages:home' %}" class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group">
+                            <i class="fas fa-chevron-right text-primary-400 mr-2 text-xs group-hover:translate-x-1 transition-transform duration-200"></i>
+                            Home
+                        </a></li>
+                        <li><a href="{% url 'services:list' %}" class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group">
+                            <i class="fas fa-chevron-right text-primary-400 mr-2 text-xs group-hover:translate-x-1 transition-transform duration-200"></i>
+                            Services
+                        </a></li>
+                        <li><a href="{% url 'projects:list' %}" class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group">
+                            <i class="fas fa-chevron-right text-primary-400 mr-2 text-xs group-hover:translate-x-1 transition-transform duration-200"></i>
+                            Projects
+                        </a></li>
+                        <li><a href="{% url 'blog:list' %}" class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group">
+                            <i class="fas fa-chevron-right text-primary-400 mr-2 text-xs group-hover:translate-x-1 transition-transform duration-200"></i>
+                            Blog
+                        </a></li>
+                        <li><a href="{% url 'pages:about' %}" class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group">
+                            <i class="fas fa-chevron-right text-primary-400 mr-2 text-xs group-hover:translate-x-1 transition-transform duration-200"></i>
+                            About Us
+                        </a></li>
                     </ul>
                 </div>
 
                 <!-- Contact Info -->
                 <div>
-                    <h4 class="font-semibold text-lg mb-4">Contact Info</h4>
-                    <div class="text-gray-400 space-y-3">
-                        <div class="flex items-center">
-                            <i class="fas fa-phone mr-3 text-primary-400"></i>
-                            <span>+254 728 145 945</span>
+                    <h4 class="font-heading font-semibold text-lg mb-6 text-white">Contact Info</h4>
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-3 group">
+                            <div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1 group-hover:scale-110 transition-transform duration-200">
+                                <i class="fas fa-phone text-white text-sm"></i>
+                            </div>
+                            <div>
+                                <div class="text-gray-300 group-hover:text-white transition-colors duration-200">+1 (555) 123-4567</div>
+                                <div class="text-gray-400 text-sm">Mon-Fri from 8am to 6pm</div>
+                            </div>
                         </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-envelope mr-3 text-primary-400"></i>
-                            <span>info@laswostudios.com</span>
+                        <div class="flex items-start space-x-3 group">
+                            <div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1 group-hover:scale-110 transition-transform duration-200">
+                                <i class="fas fa-envelope text-white text-sm"></i>
+                            </div>
+                            <div>
+                                <div class="text-gray-300 group-hover:text-white transition-colors duration-200">info@laswostudios.com</div>
+                                <div class="text-gray-400 text-sm">We respond within 24 hours</div>
+                            </div>
                         </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-map-marker-alt mr-3 text-primary-400"></i>
-                            <span>123 Construction Ave, City</span>
+                        <div class="flex items-start space-x-3 group">
+                            <div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1 group-hover:scale-110 transition-transform duration-200">
+                                <i class="fas fa-map-marker-alt text-white text-sm"></i>
+                            </div>
+                            <div>
+                                <div class="text-gray-300 group-hover:text-white transition-colors duration-200">123 Construction Avenue</div>
+                                <div class="text-gray-400 text-sm">Suite 100, City, State 12345</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-                <p>&copy; 2024 Laswo Studios. All rights reserved.</p>
+            <div class="border-t border-gray-700 mt-12 pt-8 text-center">
+                <p class="text-gray-400">&copy; 2024 Laswo Studios. All rights reserved. | Built with <i class="fas fa-heart text-red-400 mx-1"></i> and precision craftsmanship</p>
             </div>
         </div>
     </footer>
 
-        <!-- JavaScript -->
+    <!-- JavaScript -->
     <script>
         // Mobile menu toggle
         document.addEventListener('DOMContentLoaded', function() {
@@ -176,34 +337,36 @@
             const mobileMenu = document.getElementById('mobile-menu');
             
             if (mobileMenuButton && mobileMenu) {
-                mobileMenuButton.addEventListener('click', function() {
+                mobileMenuButton.addEventListener('click', function(e) {
+                    e.stopPropagation();
                     mobileMenu.classList.toggle('hidden');
-                    mobileMenu.classList.toggle('block');
                 });
             }
 
             // Close mobile menu when clicking outside
-            document.addEventListener('click', function(event) {
-                if (mobileMenu && mobileMenuButton) {
-                    const isClickInsideMenu = mobileMenu.contains(event.target);
-                    const isClickOnButton = mobileMenuButton.contains(event.target);
-                    
-                    if (!isClickInsideMenu && !isClickOnButton && !mobileMenu.classList.contains('hidden')) {
-                        mobileMenu.classList.add('hidden');
-                        mobileMenu.classList.remove('block');
-                    }
+            document.addEventListener('click', function() {
+                if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
                 }
             });
 
-            // Close mobile menu when clicking on a link
-            const mobileMenuLinks = mobileMenu?.querySelectorAll('a');
-            if (mobileMenuLinks) {
-                mobileMenuLinks.forEach(link => {
-                    link.addEventListener('click', function() {
-                        mobileMenu.classList.add('hidden');
-                        mobileMenu.classList.remove('block');
-                    });
+            // Prevent menu from closing when clicking inside
+            if (mobileMenu) {
+                mobileMenu.addEventListener('click', function(e) {
+                    e.stopPropagation();
                 });
+            }
+        });
+
+        // Add scroll effect to navbar
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.classList.add('shadow-xl');
+                nav.classList.remove('shadow-lg');
+            } else {
+                nav.classList.remove('shadow-xl');
+                nav.classList.add('shadow-lg');
             }
         });
     </script>

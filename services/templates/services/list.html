@@ -1,58 +1,224 @@
 {% extends 'pages/base.html' %}
 
-{% block title %}Our Services - Laswo Studios{% endblock %}
+{% block title %}Our Premium Construction Services - Laswo Studios{% endblock %}
+
+{% block extra_css %}
+<style>
+    .service-hero {
+        background: linear-gradient(135deg, 
+            rgba(14, 165, 233, 0.9) 0%, 
+            rgba(2, 132, 199, 0.9) 50%, 
+            rgba(3, 105, 161, 0.9) 100%),
+            url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M50 0H0v50" fill="none" stroke="%23ffffff" stroke-opacity="0.1"/></pattern><rect width="1000" height="1000" fill="url(%23grid)"/></svg>');
+    }
+    
+    .category-tab {
+        background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+        border: 2px solid transparent;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .category-tab.active {
+        background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+        color: white;
+        border-color: #0ea5e9;
+        box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.3);
+        transform: translateY(-2px);
+    }
+    
+    .service-card-premium {
+        background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 
+            0 4px 6px -1px rgba(0, 0, 0, 0.1),
+            0 2px 4px -1px rgba(0, 0, 0, 0.06),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .service-card-premium:hover {
+        transform: translateY(-8px);
+        box-shadow: 
+            0 25px 50px -12px rgba(0, 0, 0, 0.25),
+            0 0 0 1px rgba(14, 165, 233, 0.1);
+    }
+    
+    .feature-badge {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+    }
+    
+    .price-tag {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    }
+    
+    .floating-tool {
+        animation: float 4s ease-in-out infinite;
+    }
+    
+    .floating-tool-2 {
+        animation: float 5s ease-in-out infinite 1s;
+    }
+    
+    .floating-tool-3 {
+        animation: float 6s ease-in-out infinite 0.5s;
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 class="text-5xl font-bold mb-6">Our Services</h1>
-        <p class="text-xl text-primary-100 max-w-3xl mx-auto">
-            Comprehensive construction solutions tailored to bring your vision to life with precision and excellence.
-        </p>
+<!-- Enhanced Hero Section -->
+<section class="service-hero text-white py-24 relative overflow-hidden">
+    <!-- Floating Tools -->
+    <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute top-20 left-10% floating-tool">
+            <i class="fas fa-hammer text-white/10 text-6xl"></i>
+        </div>
+        <div class="absolute top-40 right-20% floating-tool-2">
+            <i class="fas fa-ruler-combined text-white/10 text-4xl"></i>
+        </div>
+        <div class="absolute bottom-20 left-30% floating-tool-3">
+            <i class="fas fa-tools text-white/10 text-5xl"></i>
+        </div>
+    </div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <div class="animate-slide-up">
+            <h1 class="text-5xl lg:text-6xl font-heading font-bold mb-6">
+                Our <span class="text-gradient">Premium</span> Services
+            </h1>
+            <p class="text-xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
+                Comprehensive construction solutions tailored to bring your vision to life with precision, quality, and unmatched craftsmanship.
+            </p>
+            
+            <!-- Stats Bar -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto">
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
+                    <div class="text-2xl font-bold text-white">50+</div>
+                    <div class="text-blue-200 text-sm">Projects Done</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
+                    <div class="text-2xl font-bold text-white">10+</div>
+                    <div class="text-blue-200 text-sm">Years Experience</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
+                    <div class="text-2xl font-bold text-white">100%</div>
+                    <div class="text-blue-200 text-sm">Satisfaction</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
+                    <div class="text-2xl font-bold text-white">24/7</div>
+                    <div class="text-blue-200 text-sm">Support</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Category Tabs -->
+<section class="py-12 bg-white border-b border-gray-100 sticky top-16 z-40 backdrop-blur-sm bg-white/95">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-wrap gap-4 justify-center">
+            <button class="category-tab active px-6 py-3 rounded-2xl font-semibold transition-all duration-300" data-category="all">
+                <i class="fas fa-th-large mr-2"></i>All Services
+            </button>
+            {% for category, category_services in services_by_category.items %}
+            <button class="category-tab px-6 py-3 rounded-2xl font-semibold transition-all duration-300" data-category="{{ category }}">
+                <i class="fas fa-{{ category_services.0.icon|default:'cog' }} mr-2"></i>
+                {{ category_services.0.get_category_display }}
+            </button>
+            {% endfor %}
+        </div>
     </div>
 </section>
 
 <!-- Services Grid -->
-<section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<section class="py-20 bg-gray-50 relative overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 bg-construction-pattern opacity-5"></div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {% for category, category_services in services_by_category.items %}
-        <div class="mb-16">
-            <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">
-                {{ category_services.0.get_category_display }}
-            </h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="service-category mb-20 animate-fade-in" data-category="{{ category }}">
+            <div class="text-center mb-12">
+                <span class="feature-badge text-white px-6 py-2 rounded-full text-sm font-semibold inline-block mb-4">
+                    <i class="fas fa-{{ category_services.0.icon|default:'cog' }} mr-2"></i>
+                    {{ category_services.0.get_category_display }}
+                </span>
+                <h2 class="text-4xl font-heading font-bold text-gray-900 mb-4">
+                    {{ category_services.0.get_category_display }} Services
+                </h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                    Professional {{ category_services.0.get_category_display|lower }} solutions tailored to your specific needs and budget.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
                 {% for service in category_services %}
-                <div class="bg-gradient-to-br from-primary-50 to-white rounded-2xl p-8 hover-lift border border-primary-100 transition-all duration-300">
-                    <div class="w-16 h-16 bg-primary-500 rounded-xl flex items-center justify-center mb-6">
-                        <i class="{{ service.icon }} text-2xl text-white"></i>
-                    </div>
+                <div class="service-card-premium rounded-3xl p-8 group relative overflow-hidden">
+                    <!-- Background Gradient on Hover -->
+                    <div class="absolute inset-0 bg-gradient-to-br from-primary-500/0 to-primary-600/0 group-hover:from-primary-500/5 group-hover:to-primary-600/10 transition-all duration-500 rounded-3xl"></div>
                     
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">{{ service.title }}</h3>
-                    <p class="text-gray-600 mb-6 leading-relaxed">{{ service.short_description }}</p>
-                    
-                    {% if service.starting_price %}
-                    <div class="mb-6">
-                        <span class="text-sm text-gray-500">Starting from</span>
-                        <div class="text-2xl font-bold text-primary-600">${{ service.starting_price }}</div>
-                    </div>
-                    {% endif %}
-                    
-                    <div class="space-y-2 mb-6">
-                        {% for feature in service.features.all|slice:":3" %}
-                        <div class="flex items-center text-gray-600">
-                            <i class="{{ feature.icon }} text-primary-500 mr-3 w-5 text-center"></i>
-                            <span class="text-sm">{{ feature.title }}</span>
+                    <!-- Service Icon -->
+                    <div class="relative z-10">
+                        <div class="w-20 h-20 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                            <i class="{{ service.icon }} text-2xl text-white"></i>
                         </div>
-                        {% endfor %}
+                        
+                        <!-- Service Title -->
+                        <h3 class="text-2xl font-heading font-bold text-gray-900 mb-4 group-hover:text-primary-600 transition-colors duration-300">
+                            {{ service.title }}
+                        </h3>
+                        
+                        <!-- Service Description -->
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            {{ service.short_description }}
+                        </p>
+                        
+                        <!-- Features List -->
+                        <div class="space-y-3 mb-6">
+                            {% for feature in service.features.all|slice:":4" %}
+                            <div class="flex items-center text-gray-700 group-hover:text-gray-800 transition-colors duration-300">
+                                <div class="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                    <i class="{{ feature.icon }} text-primary-600 text-xs"></i>
+                                </div>
+                                <span class="text-sm font-medium">{{ feature.title }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <!-- Pricing & CTA -->
+                        <div class="flex items-center justify-between mt-8 pt-6 border-t border-gray-200">
+                            {% if service.starting_price %}
+                            <div>
+                                <span class="text-sm text-gray-500 block">Starting from</span>
+                                <div class="price-tag text-white px-4 py-2 rounded-xl font-bold text-lg inline-block">
+                                    ${{ service.starting_price }}
+                                </div>
+                            </div>
+                            {% endif %}
+                            
+                            <a href="{% url 'services:detail' service.slug %}" 
+                               class="bg-primary-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-primary-600 transition-all duration-300 shadow-lg hover:shadow-xl transform group-hover:scale-105 flex items-center">
+                                Explore
+                                <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform duration-200"></i>
+                            </a>
+                        </div>
+                        
+                        <!-- Quick Info -->
+                        {% if service.duration %}
+                        <div class="flex items-center justify-between text-sm text-gray-500 mt-4">
+                            <span class="flex items-center">
+                                <i class="fas fa-clock mr-2"></i>
+                                {{ service.duration }}
+                            </span>
+                            <span class="flex items-center">
+                                <i class="fas fa-calendar-check mr-2"></i>
+                                Free Consultation
+                            </span>
+                        </div>
+                        {% endif %}
                     </div>
-                    
-                    <a href="{% url 'services:detail' service.slug %}" 
-                       class="inline-flex items-center text-primary-600 font-semibold hover:text-primary-700 transition-colors">
-                        Learn More
-                        <i class="fas fa-arrow-right ml-2"></i>
-                    </a>
                 </div>
                 {% endfor %}
             </div>
@@ -61,23 +227,123 @@
     </div>
 </section>
 
+<!-- Process Section -->
+<section class="py-20 bg-white relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <span class="feature-badge text-white px-6 py-2 rounded-full text-sm font-semibold inline-block mb-4">
+                <i class="fas fa-play-circle mr-2"></i>Our Process
+            </span>
+            <h2 class="text-4xl font-heading font-bold text-gray-900 mb-6">
+                How We <span class="text-gradient">Work</span>
+            </h2>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Our streamlined process ensures your project is completed on time, on budget, and to the highest standards.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- Step 1 -->
+            <div class="text-center group animate-fade-in">
+                <div class="w-20 h-20 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                    <i class="fas fa-comments text-white text-2xl"></i>
+                </div>
+                <div class="bg-primary-100 text-primary-600 w-8 h-8 rounded-full flex items-center justify-center mx-auto mb-4 font-bold">1</div>
+                <h3 class="text-xl font-heading font-bold text-gray-900 mb-3">Consultation</h3>
+                <p class="text-gray-600">We discuss your vision, requirements, and budget to understand your project goals.</p>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="text-center group animate-fade-in" style="animation-delay: 0.2s;">
+                <div class="w-20 h-20 bg-gradient-to-br from-secondary-500 to-secondary-700 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                    <i class="fas fa-pencil-ruler text-white text-2xl"></i>
+                </div>
+                <div class="bg-secondary-100 text-secondary-600 w-8 h-8 rounded-full flex items-center justify-center mx-auto mb-4 font-bold">2</div>
+                <h3 class="text-xl font-heading font-bold text-gray-900 mb-3">Design & Planning</h3>
+                <p class="text-gray-600">We create detailed plans and 3D visualizations of your project.</p>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="text-center group animate-fade-in" style="animation-delay: 0.4s;">
+                <div class="w-20 h-20 bg-gradient-to-br from-accent-500 to-accent-700 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                    <i class="fas fa-hammer text-white text-2xl"></i>
+                </div>
+                <div class="bg-accent-100 text-accent-600 w-8 h-8 rounded-full flex items-center justify-center mx-auto mb-4 font-bold">3</div>
+                <h3 class="text-xl font-heading font-bold text-gray-900 mb-3">Construction</h3>
+                <p class="text-gray-600">Our skilled team brings your vision to life with precision craftsmanship.</p>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="text-center group animate-fade-in" style="animation-delay: 0.6s;">
+                <div class="w-20 h-20 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                    <i class="fas fa-home text-white text-2xl"></i>
+                </div>
+                <div class="bg-primary-100 text-primary-600 w-8 h-8 rounded-full flex items-center justify-center mx-auto mb-4 font-bold">4</div>
+                <h3 class="text-xl font-heading font-bold text-gray-900 mb-3">Completion</h3>
+                <p class="text-gray-600">Final walkthrough and handover of your beautifully transformed space.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- CTA Section -->
-<section class="py-20 bg-gray-50">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-4xl font-bold text-gray-900 mb-6">Not Sure Which Service You Need?</h2>
-        <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Our experts can help you determine the best solution for your project during a free consultation.
+<section class="py-20 bg-gradient-to-r from-primary-600 to-primary-800 relative overflow-hidden">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <h2 class="text-4xl lg:text-5xl font-heading font-bold text-white mb-6">
+            Ready to Start Your Project?
+        </h2>
+        <p class="text-xl text-primary-100 mb-8 max-w-2xl mx-auto">
+            Let's discuss your vision and create something amazing together. Get a free consultation and quote today.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="{% url 'pages:contact' %}" class="bg-primary-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-primary-700 transition-colors shadow-lg">
-                <i class="fas fa-calendar-check mr-2"></i>
-                Free Consultation
+            <a href="{% url 'pages:contact' %}" 
+               class="group bg-white text-primary-600 px-8 py-4 rounded-xl text-lg font-semibold hover:bg-gray-100 transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:scale-105 flex items-center justify-center">
+                <i class="fas fa-calendar-check mr-3 group-hover:scale-110 transition-transform duration-200"></i>
+                Get Free Quote
             </a>
-            <a href="tel:+15551234567" class="border-2 border-primary-600 text-primary-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-primary-600 hover:text-white transition-colors">
-                <i class="fas fa-phone mr-2"></i>
-                Call Now
+            <a href="tel:+15551234567" 
+               class="group bg-transparent border-2 border-white text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-white hover:text-primary-600 transition-all duration-300 shadow-lg flex items-center justify-center">
+                <i class="fas fa-phone mr-3 group-hover:scale-110 transition-transform duration-200"></i>
+                Call: (555) 123-4567
             </a>
         </div>
     </div>
 </section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Category filtering
+    document.addEventListener('DOMContentLoaded', function() {
+        const categoryTabs = document.querySelectorAll('.category-tab');
+        const serviceCategories = document.querySelectorAll('.service-category');
+        
+        categoryTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const category = this.getAttribute('data-category');
+                
+                // Update active tab
+                categoryTabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Show/hide categories
+                serviceCategories.forEach(cat => {
+                    if (category === 'all' || cat.getAttribute('data-category') === category) {
+                        cat.style.display = 'block';
+                        setTimeout(() => {
+                            cat.style.opacity = '1';
+                            cat.style.transform = 'translateY(0)';
+                        }, 50);
+                    } else {
+                        cat.style.opacity = '0';
+                        cat.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            cat.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+    });
+</script>
 {% endblock %}

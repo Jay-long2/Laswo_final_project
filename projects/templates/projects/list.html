@@ -1,39 +1,143 @@
 {% extends 'pages/base.html' %}
 
-{% block title %}Our Projects - Laswo Studios{% endblock %}
+{% block title %}Our Construction Projects Portfolio - Laswo Studios{% endblock %}
+
+{% block extra_css %}
+<style>
+    .portfolio-hero {
+        background: linear-gradient(135deg, 
+            rgba(14, 165, 233, 0.9) 0%, 
+            rgba(2, 132, 199, 0.9) 50%, 
+            rgba(3, 105, 161, 0.9) 100%),
+            url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><rect width="1000" height="1000" fill="%230ea5e9"/><path d="M0,500 Q250,400 500,500 T1000,500 L1000,1000 L0,1000 Z" fill="%230284c7" opacity="0.3"/></svg>');
+    }
+    
+    .filter-tab {
+        background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+        border: 2px solid transparent;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .filter-tab.active {
+        background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+        color: white;
+        border-color: #0ea5e9;
+        box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.3);
+        transform: translateY(-2px);
+    }
+    
+    .project-card {
+        background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 
+            0 4px 6px -1px rgba(0, 0, 0, 0.1),
+            0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+    }
+    
+    .project-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 
+            0 25px 50px -12px rgba(0, 0, 0, 0.25),
+            0 0 0 1px rgba(14, 165, 233, 0.1);
+    }
+    
+    .project-image {
+        transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .project-card:hover .project-image {
+        transform: scale(1.1);
+    }
+    
+    .status-badge {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    }
+    
+    .status-badge.in-progress {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    }
+    
+    .status-badge.upcoming {
+        background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+    }
+    
+    .featured-badge {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 class="text-5xl font-bold mb-6">Our Projects</h1>
-        <p class="text-xl text-primary-100 max-w-3xl mx-auto">
-            Explore our portfolio of completed projects and see how we've transformed spaces for our clients.
-        </p>
+<!-- Enhanced Hero Section -->
+<section class="portfolio-hero text-white py-24 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <div class="animate-slide-up">
+            <h1 class="text-5xl lg:text-6xl font-heading font-bold mb-6">
+                Our <span class="text-gradient">Portfolio</span>
+            </h1>
+            <p class="text-xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
+                Explore our collection of completed projects and see how we've transformed spaces with precision craftsmanship and innovative design.
+            </p>
+            
+            <!-- Portfolio Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto">
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
+                    <div class="text-2xl font-bold text-white">{{ projects.count }}</div>
+                    <div class="text-blue-200 text-sm">Total Projects</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
+                    <div class="text-2xl font-bold text-white">{{ featured_projects.count }}</div>
+                    <div class="text-blue-200 text-sm">Featured</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
+                    <div class="text-2xl font-bold text-white">10+</div>
+                    <div class="text-blue-200 text-sm">Years Experience</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
+                    <div class="text-2xl font-bold text-white">100%</div>
+                    <div class="text-blue-200 text-sm">Satisfaction</div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
 <!-- Filters Section -->
-<section class="py-8 bg-white border-b">
+<section class="py-8 bg-white border-b border-gray-100 sticky top-16 z-40 backdrop-blur-sm bg-white/95">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-wrap gap-4 items-center justify-between">
-            <div class="flex flex-wrap gap-4">
-                <select id="service-filter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500">
-                    <option value="">All Services</option>
-                    <option value="renovation" {% if active_filters.service == 'renovation' %}selected{% endif %}>Renovations</option>
-                    <option value="landscaping" {% if active_filters.service == 'landscaping' %}selected{% endif %}>Landscaping</option>
-                    <option value="roofing" {% if active_filters.service == 'roofing' %}selected{% endif %}>Roofing</option>
-                </select>
-                
-                <select id="status-filter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            <div class="flex flex-wrap gap-3">
+                <button class="filter-tab active px-5 py-2.5 rounded-xl font-semibold text-sm transition-all duration-300" data-filter="all">
+                    All Projects
+                </button>
+                <button class="filter-tab px-5 py-2.5 rounded-xl font-semibold text-sm transition-all duration-300" data-filter="renovation">
+                    Renovations
+                </button>
+                <button class="filter-tab px-5 py-2.5 rounded-xl font-semibold text-sm transition-all duration-300" data-filter="landscaping">
+                    Landscaping
+                </button>
+                <button class="filter-tab px-5 py-2.5 rounded-xl font-semibold text-sm transition-all duration-300" data-filter="roofing">
+                    Roofing
+                </button>
+                <button class="filter-tab px-5 py-2.5 rounded-xl font-semibold text-sm transition-all duration-300" data-filter="construction">
+                    New Construction
+                </button>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <select id="status-filter" class="px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm">
                     <option value="">All Status</option>
                     <option value="completed" {% if active_filters.status == 'completed' %}selected{% endif %}>Completed</option>
                     <option value="in_progress" {% if active_filters.status == 'in_progress' %}selected{% endif %}>In Progress</option>
                 </select>
-            </div>
-            
-            <div class="text-sm text-gray-600">
-                {{ projects.count }} project{{ projects.count|pluralize }} found
+                
+                <div class="text-sm text-gray-600">
+                    <span id="project-count">{{ projects.count }}</span> projects
+                </div>
             </div>
         </div>
     </div>
@@ -41,35 +145,88 @@
 
 <!-- Featured Projects -->
 {% if featured_projects %}
-<section class="py-12 bg-gray-50">
+<section class="py-16 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Featured Projects</h2>
+        <div class="text-center mb-12">
+            <span class="featured-badge text-white px-6 py-2 rounded-full text-sm font-semibold inline-block mb-4">
+                <i class="fas fa-star mr-2"></i>Featured Projects
+            </span>
+            <h2 class="text-4xl font-heading font-bold text-gray-900 mb-4">
+                Showcase <span class="text-gradient">Excellence</span>
+            </h2>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Our most remarkable transformations that demonstrate our commitment to quality and innovation.
+            </p>
+        </div>
+
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {% for project in featured_projects %}
-            <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover-lift">
-                <div class="relative h-80">
-                    <img src="{{ project.featured_image.url }}" 
-                         alt="{{ project.title }}"
-                         class="w-full h-full object-cover">
+            <div class="project-card rounded-3xl overflow-hidden group animate-fade-in">
+                <div class="relative overflow-hidden">
+                    <div class="h-80 project-image bg-gray-200">
+                        {% if project.featured_image %}
+                        <img src="{{ project.featured_image.url }}" 
+                             alt="{{ project.title }}"
+                             class="w-full h-full object-cover">
+                        {% else %}
+                        <div class="w-full h-full bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center">
+                            <i class="fas fa-project-diagram text-white text-5xl"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Featured Badge -->
                     <div class="absolute top-4 left-4">
-                        <span class="bg-secondary-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                            Featured
+                        <span class="featured-badge text-white px-4 py-1.5 rounded-full text-xs font-semibold">
+                            <i class="fas fa-crown mr-1"></i>Featured
                         </span>
+                    </div>
+                    
+                    <!-- Status Badge -->
+                    <div class="absolute top-4 right-4">
+                        <span class="status-badge {% if project.status == 'in_progress' %}in-progress{% elif project.status == 'upcoming' %}upcoming{% endif %} text-white px-3 py-1.5 rounded-full text-xs font-semibold">
+                            {{ project.get_status_display }}
+                        </span>
+                    </div>
+                    
+                    <!-- Overlay -->
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-500 flex items-end">
+                        <div class="p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                            <span class="bg-primary-500 text-white px-3 py-1 rounded-full text-xs font-semibold mb-2 inline-block">
+                                {{ project.service.title }}
+                            </span>
+                            <h3 class="text-2xl font-heading font-bold text-white mb-2">{{ project.title }}</h3>
+                            <p class="text-blue-100 text-sm line-clamp-2">{{ project.short_description }}</p>
+                        </div>
                     </div>
                 </div>
+                
                 <div class="p-6">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-semibold">
-                            {{ project.service.title }}
-                        </span>
-                        <span class="text-sm text-gray-500">{{ project.completion_date|date:"M Y" }}</span>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-4 text-sm text-gray-600">
+                            {% if project.location %}
+                            <span class="flex items-center">
+                                <i class="fas fa-map-marker-alt mr-1.5"></i>
+                                {{ project.location }}
+                            </span>
+                            {% endif %}
+                            {% if project.completion_date %}
+                            <span class="flex items-center">
+                                <i class="fas fa-calendar mr-1.5"></i>
+                                {{ project.completion_date|date:"M Y" }}
+                            </span>
+                            {% endif %}
+                        </div>
+                        
+                        {% if project.budget %}
+                        <div class="text-lg font-bold text-primary-600">${{ project.budget }}</div>
+                        {% endif %}
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-3">{{ project.title }}</h3>
-                    <p class="text-gray-600 mb-4">{{ project.short_description }}</p>
+                    
                     <a href="{% url 'projects:detail' project.slug %}" 
-                       class="text-primary-600 font-semibold hover:text-primary-700 inline-flex items-center">
-                        View Project
-                        <i class="fas fa-arrow-right ml-2"></i>
+                       class="w-full bg-primary-500 text-white py-3 rounded-xl font-semibold hover:bg-primary-600 transition-colors duration-200 flex items-center justify-center group/btn">
+                        View Project Details
+                        <i class="fas fa-arrow-right ml-2 group-hover/btn:translate-x-1 transition-transform duration-200"></i>
                     </a>
                 </div>
             </div>
@@ -80,99 +237,83 @@
 {% endif %}
 
 <!-- All Projects Grid -->
-<section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">All Projects</h2>
-        
+<section class="py-20 bg-white relative overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 bg-construction-pattern opacity-3"></div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {% if projects %}
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
             {% for project in projects %}
-            <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover-lift border border-gray-100">
-                <div class="relative h-64">
-                    <img src="{{ project.featured_image.url }}" 
-                         alt="{{ project.title }}"
-                         class="w-full h-full object-cover">
+            <div class="project-card rounded-3xl overflow-hidden group animate-fade-in" 
+                 data-service="{{ project.service.category }}"
+                 data-status="{{ project.status }}">
+                <div class="relative overflow-hidden">
+                    <div class="h-64 project-image bg-gray-200">
+                        {% if project.featured_image %}
+                        <img src="{{ project.featured_image.url }}" 
+                             alt="{{ project.title }}"
+                             class="w-full h-full object-cover">
+                        {% else %}
+                        <div class="w-full h-full bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center">
+                            <i class="fas fa-project-diagram text-white text-4xl"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Status Badge -->
                     <div class="absolute top-4 right-4">
-                        <span class="bg-white/90 backdrop-blur-sm text-gray-700 px-3 py-1 rounded-full text-sm font-semibold">
+                        <span class="status-badge {% if project.status == 'in_progress' %}in-progress{% elif project.status == 'upcoming' %}upcoming{% endif %} text-white px-3 py-1.5 rounded-full text-xs font-semibold">
                             {{ project.get_status_display }}
                         </span>
                     </div>
-                </div>
-                <div class="p-6">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-semibold">
+                    
+                    <!-- Service Badge -->
+                    <div class="absolute top-4 left-4">
+                        <span class="bg-white/90 backdrop-blur-sm text-gray-700 px-3 py-1.5 rounded-full text-xs font-semibold">
                             {{ project.service.title }}
                         </span>
+                    </div>
+                </div>
+                
+                <div class="p-6">
+                    <h3 class="text-xl font-heading font-bold text-gray-900 mb-3 group-hover:text-primary-600 transition-colors duration-300">
+                        {{ project.title }}
+                    </h3>
+                    
+                    <p class="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-2">
+                        {{ project.short_description }}
+                    </p>
+                    
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-3 text-xs text-gray-500">
+                            {% if project.location %}
+                            <span class="flex items-center">
+                                <i class="fas fa-map-marker-alt mr-1"></i>
+                                {{ project.location|truncatewords:2 }}
+                            </span>
+                            {% endif %}
+                            {% if project.completion_date %}
+                            <span class="flex items-center">
+                                <i class="fas fa-calendar mr-1"></i>
+                                {{ project.completion_date|date:"M Y" }}
+                            </span>
+                            {% endif %}
+                        </div>
+                        
                         {% if project.budget %}
-                        <span class="text-sm font-semibold text-gray-900">${{ project.budget }}</span>
+                        <div class="text-sm font-bold text-primary-600">${{ project.budget }}</div>
                         {% endif %}
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">{{ project.title }}</h3>
-                    <p class="text-gray-600 mb-4 text-sm">{{ project.short_description }}</p>
-                    <div class="flex items-center justify-between">
-                        <a href="{% url 'projects:detail' project.slug %}" 
-                           class="text-primary-600 font-semibold hover:text-primary-700 inline-flex items-center text-sm">
-                            View Details
-                            <i class="fas fa-arrow-right ml-1"></i>
-                        </a>
-                        {% if project.location %}
-                        <span class="text-xs text-gray-500 flex items-center">
-                            <i class="fas fa-map-marker-alt mr-1"></i>
-                            {{ project.location }}
-                        </span>
-                        {% endif %}
-                    </div>
+                    
+                    <a href="{% url 'projects:detail' project.slug %}" 
+                       class="w-full bg-gray-100 text-gray-700 py-2.5 rounded-xl font-semibold hover:bg-primary-500 hover:text-white transition-all duration-300 flex items-center justify-center group/btn text-sm">
+                        View Details
+                        <i class="fas fa-arrow-right ml-2 group-hover/btn:translate-x-1 transition-transform duration-200"></i>
+                    </a>
                 </div>
             </div>
             {% endfor %}
         </div>
-        {% else %}
-        <div class="text-center py-12">
-            <i class="fas fa-search text-6xl text-gray-300 mb-4"></i>
-            <h3 class="text-2xl font-bold text-gray-600 mb-2">No projects found</h3>
-            <p class="text-gray-500">Try adjusting your filters to see more results.</p>
-        </div>
-        {% endif %}
-    </div>
-</section>
-
-<!-- CTA Section -->
-<section class="py-20 bg-gray-50">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-4xl font-bold text-gray-900 mb-6">Ready to Start Your Project?</h2>
-        <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Let us help bring your vision to life. Contact us for a free consultation.
-        </p>
-        <a href="{% url 'pages:contact' %}" 
-           class="bg-primary-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-primary-700 transition-colors shadow-lg inline-flex items-center">
-            <i class="fas fa-calendar-check mr-2"></i>
-            Start Your Project
-        </a>
-    </div>
-</section>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const serviceFilter = document.getElementById('service-filter');
-    const statusFilter = document.getElementById('status-filter');
-    
-    function updateFilters() {
-        const params = new URLSearchParams();
         
-        if (serviceFilter.value) {
-            params.set('service', serviceFilter.value);
-        }
-        
-        if (statusFilter.value) {
-            params.set('status', statusFilter.value);
-        }
-        
-        const queryString = params.toString();
-        window.location.href = queryString ? `?${queryString}` : '.';
-    }
-    
-    serviceFilter.addEventListener('change', updateFilters);
-    statusFilter.addEventListener('change', updateFilters);
-});
-</script>
-{% endblock %}
+        <!-- Empty State
