@@ -326,6 +326,17 @@
             <div class="border-t border-gray-700 mt-12 pt-8 text-center">
                 <p class="text-gray-400">&copy; 2024 Laswo Studios. All rights reserved. | Built with <i class="fas fa-heart text-red-400 mx-1"></i> and precision craftsmanship</p>
             </div>
+                <div>
+    <h4 class="font-heading font-semibold text-lg mb-6">Quick Links</h4>
+    <ul class="space-y-3">
+        <!-- other links -->
+        {% if user.is_authenticated and user.is_staff %}
+        <li><a href="{% url 'admin:index' %}" class="text-gray-300 hover:text-white transition-colors">Admin Panel</a></li>
+        <li><a href="{% url 'admin:logout' %}" class="text-gray-300 hover:text-white transition-colors">Logout</a></li>
+        {% endif %}
+    </ul>
+</div>
+
         </div>
     </footer>
 
