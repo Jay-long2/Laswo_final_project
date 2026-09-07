@@ -17,7 +17,7 @@ services:
       - key: WEB_CONCURRENCY
         value: 4
       - key: PYTHON_VERSION
-        value: 3.12.4
+        value: "3.12.4"
 
 databases:
   - name: laswo-studios-db
