@@ -410,9 +410,26 @@ GALLERY_CAPTIONS = {
 class Command(BaseCommand):
     help = "Seed services and the project portfolio from Laswo Studios' real records."
 
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--if-empty',
+            action='store_true',
+            help=(
+                'Only seed when no projects exist yet. Use this on deploy so the '
+                'first boot is populated but later admin edits are never overwritten.'
+            ),
+        )
+
     @transaction.atomic
     def handle(self, *args, **options):
         self.verbosity = options['verbosity']
+
+        if options['if_empty'] and Project.objects.exists():
+            self._log(
+                f'Skipping seed: {Project.objects.count()} projects already exist.'
+            )
+            return
+
         services = {}
 
         for data in SERVICES:
