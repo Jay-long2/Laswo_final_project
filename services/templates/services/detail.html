@@ -1,144 +1,140 @@
 {% extends 'pages/base.html' %}
 
-{% block title %}{{ service.title }} - Laswo Studios{% endblock %}
+{% block title %}{{ service.title }} - {{ company.name }}{% endblock %}
+{% block meta_description %}{{ service.short_description }}{% endblock %}
+{% block og_title %}{{ service.title }} - {{ company.name }}{% endblock %}
+{% block og_description %}{{ service.short_description }}{% endblock %}
+{% block og_image %}{% if service.featured_image %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ service.featured_image.url }}">{% endif %}{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+<section class="bg-ink-950 text-white">
+    <div class="max-w-content mx-auto px-4 sm:px-6 py-14 sm:py-20">
+        <nav class="text-sm text-ink-400 mb-6" aria-label="Breadcrumb">
+            <a href="{% url 'pages:home' %}" class="hover:text-amber-400 transition">Home</a>
+            <span class="mx-2">/</span>
+            <a href="{% url 'services:list' %}" class="hover:text-amber-400 transition">Services</a>
+            <span class="mx-2">/</span>
+            <span class="text-ink-200">{{ service.title }}</span>
+        </nav>
+
+        <span class="w-14 h-14 rounded-xl bg-amber-500 text-ink-950 grid place-items-center mb-5">
+            <i class="{{ service.icon|default:'fa-solid fa-hammer' }} text-xl"></i>
+        </span>
+        <h1 class="font-display text-4xl sm:text-5xl font-bold mb-4 max-w-3xl">{{ service.title }}</h1>
+        <p class="text-ink-300 text-lg max-w-2xl leading-relaxed">{{ service.short_description }}</p>
+
+        <div class="flex flex-wrap gap-x-8 gap-y-3 mt-8 text-sm">
+            {% if service.duration %}
             <div>
-                <nav class="flex items-center space-x-2 text-primary-200 mb-6">
-                    <a href="{% url 'services:list' %}" class="hover:text-white transition-colors">Services</a>
-                    <i class="fas fa-chevron-right text-sm"></i>
-                    <span>{{ service.title }}</span>
-                </nav>
-                
-                <h1 class="text-5xl font-bold mb-6">{{ service.title }}</h1>
-                <p class="text-xl text-primary-100 mb-8 leading-relaxed">{{ service.short_description }}</p>
-                
-                <div class="flex flex-wrap gap-4 mb-8">
-                    {% if service.starting_price %}
-                    <div class="bg-white/20 backdrop-blur-sm rounded-lg px-6 py-3">
-                        <div class="text-sm text-primary-200">Starting from</div>
-                        <div class="text-2xl font-bold text-white">${{ service.starting_price }}</div>
-                    </div>
-                    {% endif %}
-                    
-                    {% if service.duration %}
-                    <div class="bg-white/20 backdrop-blur-sm rounded-lg px-6 py-3">
-                        <div class="text-sm text-primary-200">Typical Duration</div>
-                        <div class="text-xl font-bold text-white">{{ service.duration }}</div>
-                    </div>
-                    {% endif %}
-                </div>
-                
-                <a href="{% url 'pages:contact' %}?service={{ service.title }}" 
-                   class="bg-secondary-500 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-secondary-600 transition-colors shadow-lg hover:shadow-xl inline-flex items-center">
-                    <i class="fas fa-calendar-check mr-2"></i>
-                    Get Free Quote
-                </a>
+                <div class="text-ink-500 text-xs uppercase tracking-wide mb-1">Typical duration</div>
+                <div class="font-semibold">{{ service.duration }}</div>
             </div>
-            
-            <div class="relative">
-                {% if service.featured_image %}
-                <img src="{{ service.featured_image.url }}" alt="{{ service.title }}" 
-                     class="rounded-2xl shadow-2xl">
-                {% else %}
-                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-12 text-center">
-                    <i class="{{ service.icon }} text-8xl text-white mb-6"></i>
-                    <h3 class="text-2xl font-bold mb-2">{{ service.title }}</h3>
-                </div>
-                {% endif %}
+            {% endif %}
+            {% if service.starting_price %}
+            <div>
+                <div class="text-ink-500 text-xs uppercase tracking-wide mb-1">Starting from</div>
+                <div class="font-semibold">KES {{ service.starting_price|floatformat:0 }}</div>
+            </div>
+            {% endif %}
+            <div>
+                <div class="text-ink-500 text-xs uppercase tracking-wide mb-1">Category</div>
+                <div class="font-semibold">{{ service.get_category_display }}</div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Service Details -->
-<section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            <!-- Main Content -->
+<section class="py-16 sm:py-20">
+    <div class="max-w-content mx-auto px-4 sm:px-6">
+        <div class="grid lg:grid-cols-3 gap-10 lg:gap-14">
+
             <div class="lg:col-span-2">
-                <h2 class="text-4xl font-bold text-gray-900 mb-8">About This Service</h2>
-                <div class="prose prose-lg max-w-none text-gray-600 leading-relaxed">
+                {% if service.featured_image %}
+                <img src="{{ service.featured_image.url }}" alt="{{ service.title }}" loading="lazy"
+                     class="w-full rounded-2xl mb-10">
+                {% endif %}
+
+                <div class="space-y-4 text-ink-600 leading-relaxed text-lg">
                     {{ service.full_description|linebreaks }}
                 </div>
-                
-                <!-- Service Gallery -->
-                {% if images %}
-                <div class="mt-12">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-6">Project Gallery</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        {% for image in images %}
-                        <div class="rounded-xl overflow-hidden shadow-lg hover-lift">
-                            <img src="{{ image.image.url }}" 
-                                 alt="{{ image.caption|default:service.title }}" 
-                                 class="w-full h-64 object-cover">
-                            {% if image.caption %}
-                            <div class="p-4 bg-white">
-                                <p class="text-sm text-gray-600">{{ image.caption }}</p>
-                            </div>
-                            {% endif %}
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-                {% endif %}
-            </div>
-            
-            <!-- Sidebar -->
-            <div class="space-y-8">
-                <!-- Features -->
+
                 {% if features %}
-                <div class="bg-gray-50 rounded-2xl p-8">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-6">What's Included</h3>
-                    <div class="space-y-4">
-                        {% for feature in features %}
-                        <div class="flex items-start space-x-4">
-                            <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                                <i class="{{ feature.icon }} text-primary-600"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-gray-900">{{ feature.title }}</h4>
-                                {% if feature.description %}
-                                <p class="text-sm text-gray-600 mt-1">{{ feature.description }}</p>
-                                {% endif %}
-                            </div>
-                        </div>
-                        {% endfor %}
+                <h2 class="font-display text-2xl font-bold text-ink-900 mt-12 mb-6">What this includes</h2>
+                <div class="grid sm:grid-cols-2 gap-5">
+                    {% for feature in features %}
+                    <div class="p-6 rounded-xl border border-ink-100">
+                        <span class="w-11 h-11 rounded-lg bg-stone-100 text-amber-600 grid place-items-center mb-4">
+                            <i class="{{ feature.icon|default:'fa-solid fa-check' }}"></i>
+                        </span>
+                        <h3 class="font-semibold text-ink-900 mb-2">{{ feature.title }}</h3>
+                        {% if feature.description %}
+                            <p class="text-sm text-ink-600 leading-relaxed">{{ feature.description }}</p>
+                        {% endif %}
                     </div>
+                    {% endfor %}
                 </div>
                 {% endif %}
-                
-                <!-- CTA Card -->
-                <div class="bg-primary-600 text-white rounded-2xl p-8 text-center">
-                    <i class="fas fa-star text-3xl mb-4"></i>
-                    <h3 class="text-xl font-bold mb-4">Ready to Get Started?</h3>
-                    <p class="text-primary-100 mb-6">Contact us for a free consultation and detailed quote.</p>
-                    <a href="{% url 'pages:contact' %}?service={{ service.title }}" 
-                       class="bg-white text-primary-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-block w-full">
-                        Get Free Quote
-                    </a>
+
+                {% if images %}
+                <h2 class="font-display text-2xl font-bold text-ink-900 mt-12 mb-6">Gallery</h2>
+                <div class="grid sm:grid-cols-2 gap-4">
+                    {% for image in images %}
+                    <figure>
+                        <img src="{{ image.image.url }}" alt="{{ image.caption|default:service.title }}" loading="lazy"
+                             class="w-full rounded-xl">
+                        {% if image.caption %}<figcaption class="text-sm text-ink-500 mt-2">{{ image.caption }}</figcaption>{% endif %}
+                    </figure>
+                    {% endfor %}
                 </div>
+                {% endif %}
+
+                {% if service.projects.exists %}
+                <h2 class="font-display text-2xl font-bold text-ink-900 mt-12 mb-6">Projects under this service</h2>
+                <div class="grid sm:grid-cols-2 gap-6">
+                    {% for project in service.projects.all|slice:":4" %}
+                        {% if project.is_published %}{% include 'projects/_card.html' with project=project %}{% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
+
+            <aside class="lg:col-span-1">
+                <div class="sticky top-28 space-y-5">
+                    <div class="rounded-2xl bg-ink-950 text-white p-7">
+                        <h3 class="font-display text-xl font-bold mb-3">Interested in this service?</h3>
+                        <p class="text-sm text-ink-300 leading-relaxed mb-6">
+                            Tell us about your site and budget and we will come back to you
+                            with what is realistic.
+                        </p>
+                        <a href="{% url 'pages:contact' %}?service={{ service.pk }}"
+                           class="w-full inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-ink-950 font-semibold py-3.5 rounded-lg transition mb-3">
+                            Request a quote <i class="fa-solid fa-arrow-right text-sm"></i>
+                        </a>
+                        <a href="https://wa.me/{{ company.whatsapp }}" rel="noopener"
+                           class="w-full inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold py-3.5 rounded-lg transition">
+                            <i class="fa-brands fa-whatsapp"></i> WhatsApp us
+                        </a>
+                    </div>
+
+                    <div class="rounded-2xl border border-ink-100 p-7">
+                        <h3 class="font-semibold text-ink-900 mb-4">Other services</h3>
+                        <ul class="space-y-2.5 text-sm">
+                            {% for other in other_services %}
+                            <li>
+                                <a href="{{ other.get_absolute_url }}" class="flex items-center gap-2.5 text-ink-600 hover:text-amber-600 transition">
+                                    <i class="{{ other.icon|default:'fa-solid fa-hammer' }} text-amber-500 w-4 text-xs"></i>
+                                    {{ other.title }}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+
         </div>
     </div>
 </section>
 
-<!-- Related Services CTA -->
-<section class="py-20 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-4xl font-bold text-gray-900 mb-6">Explore Other Services</h2>
-        <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Discover our full range of construction and renovation services.
-        </p>
-        <a href="{% url 'services:list' %}" 
-           class="bg-primary-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-primary-700 transition-colors shadow-lg inline-flex items-center">
-            View All Services
-            <i class="fas fa-arrow-right ml-2"></i>
-        </a>
-    </div>
-</section>
 {% endblock %}

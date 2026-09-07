@@ -4,16 +4,20 @@ services:
     env: python
     plan: free
     buildCommand: "./build.sh"
-    startCommand: "python manage.py migrate && gunicorn laswo_studios.wsgi:application"
+    startCommand: "gunicorn laswo_studios.wsgi:application"
     envVars:
+      - key: DEBUG
+        value: "False"
+      - key: SECRET_KEY
+        generateValue: true
       - key: DATABASE_URL
         fromDatabase:
           name: laswo-studios-db
           property: connectionString
-      - key: SECRET_KEY
-        generateValue: true
       - key: WEB_CONCURRENCY
         value: 4
+      - key: PYTHON_VERSION
+        value: 3.12.4
 
 databases:
   - name: laswo-studios-db

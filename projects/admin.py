@@ -1,43 +1,42 @@
 from django.contrib import admin
-from .models import Project, ProjectImage, ProjectCategory
 
-# Register your models here.
+from .models import Project, ProjectImage
+
+
 class ProjectImageInline(admin.TabularInline):
     model = ProjectImage
     extra = 1
 
+
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ['title', 'service', 'status', 'completion_date', 'is_featured', 'is_published']
+    list_display = ['title', 'service', 'location', 'status', 'is_featured', 'is_published']
     list_filter = ['status', 'service', 'is_featured', 'is_published']
-    search_fields = ['title', 'client_name', 'location']
+    list_editable = ['is_featured', 'is_published']
+    search_fields = ['title', 'location', 'client_name']
     prepopulated_fields = {'slug': ('title',)}
     inlines = [ProjectImageInline]
-    
+
     fieldsets = (
         ('Basic Information', {
-            'fields': ('title', 'slug', 'service', 'client_name', 'location')
+            'fields': ('title', 'slug', 'service', 'location', 'client_name', 'year_label')
         }),
         ('Content', {
             'fields': ('short_description', 'full_description', 'featured_image')
         }),
-        ('Project Details', {
-            'fields': ('challenge', 'solution', 'result', 'client_testimonial', 'client_company')
+        ('Attribution & Value', {
+            'fields': ('role', 'delivered_with', 'value', 'status'),
+            'description': 'Be accurate here - this is what tells visitors what we actually did.',
         }),
-        ('Timeline & Budget', {
-            'fields': ('start_date', 'completion_date', 'budget', 'status')
+        ('Case Study', {
+            'fields': ('challenge', 'solution', 'result', 'client_testimonial', 'client_company'),
+            'classes': ('collapse',),
         }),
-        ('Display Options', {
-            'fields': ('display_order', 'is_featured', 'is_published')
-        }),
+        ('Display Options', {'fields': ('display_order', 'is_featured', 'is_published')}),
     )
 
-@admin.register(ProjectCategory)
-class ProjectCategoryAdmin(admin.ModelAdmin):
-    list_display = ['name', 'slug', 'display_order']
-    prepopulated_fields = {'slug': ('name',)}
 
 @admin.register(ProjectImage)
 class ProjectImageAdmin(admin.ModelAdmin):
-    list_display = ['project', 'caption', 'is_primary', 'display_order']
+    list_display = ['project', 'caption', 'display_order']
     list_filter = ['project']

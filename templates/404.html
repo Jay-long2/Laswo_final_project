@@ -1,0 +1,21 @@
+{% extends 'pages/base.html' %}
+{% block title %}Page not found - {{ company.name }}{% endblock %}
+{% block content %}
+<section class="min-h-[60vh] grid place-items-center py-20">
+    <div class="max-w-lg mx-auto px-4 text-center">
+        <p class="font-display text-7xl font-bold text-amber-500 mb-4">404</p>
+        <h1 class="font-display text-3xl font-bold text-ink-900 mb-3">We could not find that page</h1>
+        <p class="text-ink-600 leading-relaxed mb-8">
+            The link may be out of date, or the page may have moved.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+            <a href="{% url 'pages:home' %}" class="inline-flex items-center justify-center gap-2 bg-ink-900 hover:bg-ink-800 text-white font-semibold px-6 py-3.5 rounded-lg transition">
+                Back to home
+            </a>
+            <a href="{% url 'projects:list' %}" class="inline-flex items-center justify-center gap-2 border border-ink-200 hover:border-amber-400 text-ink-900 font-semibold px-6 py-3.5 rounded-lg transition">
+                Browse projects
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

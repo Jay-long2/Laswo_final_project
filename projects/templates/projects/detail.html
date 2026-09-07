@@ -1,237 +1,186 @@
 {% extends 'pages/base.html' %}
 
-{% block title %}{{ project.title }} - Laswo Studios{% endblock %}
+{% block title %}{{ project.title }} - {{ company.name }}{% endblock %}
+{% block meta_description %}{{ project.short_description }}{% endblock %}
+{% block og_title %}{{ project.title }} - {{ company.name }}{% endblock %}
+{% block og_description %}{{ project.short_description }}{% endblock %}
+{% block og_image %}{% if project.featured_image %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ project.featured_image.url }}">{% endif %}{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="relative py-20 bg-gray-900 text-white">
-    <div class="absolute inset-0">
-        <img src="{{ project.featured_image.url }}" 
-             alt="{{ project.title }}"
-             class="w-full h-full object-cover opacity-40">
-    </div>
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav class="flex items-center space-x-2 text-gray-300 mb-6">
-            <a href="{% url 'projects:list' %}" class="hover:text-white transition-colors">Projects</a>
-            <i class="fas fa-chevron-right text-sm"></i>
-            <span>{{ project.title }}</span>
+
+<section class="bg-ink-950 text-white">
+    <div class="max-w-content mx-auto px-4 sm:px-6 py-14 sm:py-16">
+        <nav class="text-sm text-ink-400 mb-6" aria-label="Breadcrumb">
+            <a href="{% url 'pages:home' %}" class="hover:text-amber-400 transition">Home</a>
+            <span class="mx-2">/</span>
+            <a href="{% url 'projects:list' %}" class="hover:text-amber-400 transition">Projects</a>
+            <span class="mx-2">/</span>
+            <span class="text-ink-200">{{ project.title }}</span>
         </nav>
-        
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-                <span class="bg-secondary-500 text-white px-4 py-2 rounded-full text-sm font-semibold mb-4 inline-block">
-                    {{ project.get_status_display }}
-                </span>
-                <h1 class="text-5xl font-bold mb-6">{{ project.title }}</h1>
-                <p class="text-xl text-gray-300 mb-8 leading-relaxed">{{ project.short_description }}</p>
-                
-                <div class="grid grid-cols-2 gap-6 mb-8">
-                    <div>
-                        <div class="text-sm text-gray-400">Service</div>
-                        <div class="text-lg font-semibold">{{ project.service.title }}</div>
-                    </div>
-                    {% if project.completion_date %}
-                    <div>
-                        <div class="text-sm text-gray-400">Completed</div>
-                        <div class="text-lg font-semibold">{{ project.completion_date|date:"F Y" }}</div>
-                    </div>
-                    {% endif %}
-                    {% if project.location %}
-                    <div>
-                        <div class="text-sm text-gray-400">Location</div>
-                        <div class="text-lg font-semibold">{{ project.location }}</div>
-                    </div>
-                    {% endif %}
-                    {% if project.duration %}
-                    <div>
-                        <div class="text-sm text-gray-400">Duration</div>
-                        <div class="text-lg font-semibold">{{ project.duration }}</div>
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
-            
-            <div class="relative">
-                <img src="{{ project.featured_image.url }}" 
-                     alt="{{ project.title }}"
-                     class="rounded-2xl shadow-2xl">
-            </div>
-        </div>
+
+        <span class="inline-block text-[11px] font-semibold uppercase tracking-wide px-2.5 py-1 rounded-md mb-4
+                     {% if project.status == 'completed' %}bg-green-500 text-white
+                     {% elif project.status == 'in_progress' %}bg-amber-500 text-ink-950
+                     {% else %}bg-white/15 text-white{% endif %}">
+            {{ project.get_status_display }}
+        </span>
+
+        <h1 class="font-display text-4xl sm:text-5xl font-bold mb-4 max-w-3xl">{{ project.title }}</h1>
+        <p class="text-ink-300 text-lg max-w-2xl leading-relaxed">{{ project.short_description }}</p>
     </div>
 </section>
 
-<!-- Project Details -->
-<section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            <!-- Main Content -->
+{% if project.featured_image %}
+<div class="max-w-content mx-auto px-4 sm:px-6 -mt-8 sm:-mt-10 relative z-10">
+    <img src="{{ project.featured_image.url }}" alt="{{ project.title }}" fetchpriority="high"
+         class="w-full rounded-2xl shadow-xl">
+</div>
+{% endif %}
+
+<section class="py-14 sm:py-20">
+    <div class="max-w-content mx-auto px-4 sm:px-6">
+        <div class="grid lg:grid-cols-3 gap-10 lg:gap-14">
+
             <div class="lg:col-span-2">
-                <!-- Project Story -->
-                <div class="prose prose-lg max-w-none text-gray-600 leading-relaxed mb-12">
+                {% if project.full_description %}
+                <div class="space-y-4 text-ink-600 leading-relaxed text-lg">
                     {{ project.full_description|linebreaks }}
                 </div>
-                
-                <!-- Challenge/Solution/Result -->
+                {% endif %}
+
                 {% if project.challenge or project.solution or project.result %}
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <div class="mt-12 space-y-6">
                     {% if project.challenge %}
-                    <div class="text-center">
-                        <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-question text-primary-600 text-xl"></i>
-                        </div>
-                        <h3 class="font-semibold text-gray-900 mb-2">The Challenge</h3>
-                        <p class="text-sm text-gray-600">{{ project.challenge }}</p>
+                    <div class="p-6 rounded-xl bg-stone-100 border border-ink-100">
+                        <h2 class="font-display text-lg font-bold text-ink-900 mb-2">
+                            <i class="fa-solid fa-circle-exclamation text-amber-600 mr-2"></i>The challenge
+                        </h2>
+                        <p class="text-ink-600 leading-relaxed">{{ project.challenge }}</p>
                     </div>
                     {% endif %}
-                    
                     {% if project.solution %}
-                    <div class="text-center">
-                        <div class="w-16 h-16 bg-secondary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-lightbulb text-secondary-600 text-xl"></i>
-                        </div>
-                        <h3 class="font-semibold text-gray-900 mb-2">Our Solution</h3>
-                        <p class="text-sm text-gray-600">{{ project.solution }}</p>
+                    <div class="p-6 rounded-xl bg-stone-100 border border-ink-100">
+                        <h2 class="font-display text-lg font-bold text-ink-900 mb-2">
+                            <i class="fa-solid fa-lightbulb text-amber-600 mr-2"></i>Our approach
+                        </h2>
+                        <p class="text-ink-600 leading-relaxed">{{ project.solution }}</p>
                     </div>
                     {% endif %}
-                    
                     {% if project.result %}
-                    <div class="text-center">
-                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-trophy text-green-600 text-xl"></i>
-                        </div>
-                        <h3 class="font-semibold text-gray-900 mb-2">The Result</h3>
-                        <p class="text-sm text-gray-600">{{ project.result }}</p>
+                    <div class="p-6 rounded-xl bg-stone-100 border border-ink-100">
+                        <h2 class="font-display text-lg font-bold text-ink-900 mb-2">
+                            <i class="fa-solid fa-circle-check text-amber-600 mr-2"></i>The outcome
+                        </h2>
+                        <p class="text-ink-600 leading-relaxed">{{ project.result }}</p>
                     </div>
                     {% endif %}
                 </div>
                 {% endif %}
-                
-                <!-- Project Gallery -->
+
                 {% if images %}
-                <div>
-                    <h2 class="text-3xl font-bold text-gray-900 mb-8">Project Gallery</h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        {% for image in images %}
-                        <div class="rounded-xl overflow-hidden shadow-lg">
-                            <img src="{{ image.image.url }}" 
-                                 alt="{{ image.caption|default:project.title }}" 
-                                 class="w-full h-64 object-cover">
-                            {% if image.caption %}
-                            <div class="p-4 bg-white">
-                                <p class="text-sm text-gray-600">{{ image.caption }}</p>
+                <h2 class="font-display text-2xl font-bold text-ink-900 mt-12 mb-6">Gallery</h2>
+                <div class="grid sm:grid-cols-2 gap-4">
+                    {% for image in images %}
+                    <figure>
+                        <img src="{{ image.image.url }}" alt="{{ image.caption|default:project.title }}" loading="lazy"
+                             class="w-full rounded-xl">
+                        {% if image.caption %}
+                            <figcaption class="text-sm text-ink-500 mt-2">{{ image.caption }}</figcaption>
+                        {% endif %}
+                    </figure>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if project.client_testimonial %}
+                <blockquote class="mt-12 rounded-2xl bg-ink-950 text-white p-8">
+                    <i class="fa-solid fa-quote-left text-2xl text-amber-500/40 mb-4"></i>
+                    <p class="font-display text-xl leading-relaxed mb-5">{{ project.client_testimonial }}</p>
+                    <footer class="text-sm text-ink-400 pt-4 border-t border-white/10">
+                        {{ project.client_name|default:"Client" }}{% if project.client_company %}, {{ project.client_company }}{% endif %}
+                    </footer>
+                </blockquote>
+                {% endif %}
+            </div>
+
+            {# ------------------------------------------------------ Facts #}
+            <aside class="lg:col-span-1">
+                <div class="sticky top-28 space-y-5">
+                    <div class="rounded-2xl border border-ink-100 p-7">
+                        <h2 class="font-display text-lg font-bold text-ink-900 mb-5">Project details</h2>
+                        <dl class="space-y-4 text-sm">
+                            {% if project.location %}
+                            <div>
+                                <dt class="text-ink-400 text-xs uppercase tracking-wide mb-1">Location</dt>
+                                <dd class="font-semibold text-ink-900">{{ project.location }}</dd>
                             </div>
                             {% endif %}
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-                {% endif %}
-            </div>
-            
-            <!-- Sidebar -->
-            <div class="space-y-8">
-                <!-- Project Info -->
-                <div class="bg-gray-50 rounded-2xl p-8">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-6">Project Details</h3>
-                    <div class="space-y-4">
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Service:</span>
-                            <span class="font-semibold">{{ project.service.title }}</span>
-                        </div>
-                        {% if project.client_name %}
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Client:</span>
-                            <span class="font-semibold">{{ project.client_name }}</span>
-                        </div>
-                        {% endif %}
-                        {% if project.location %}
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Location:</span>
-                            <span class="font-semibold">{{ project.location }}</span>
-                        </div>
-                        {% endif %}
-                        {% if project.start_date %}
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Start Date:</span>
-                            <span class="font-semibold">{{ project.start_date|date:"M j, Y" }}</span>
-                        </div>
-                        {% endif %}
-                        {% if project.completion_date %}
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Completion:</span>
-                            <span class="font-semibold">{{ project.completion_date|date:"M j, Y" }}</span>
-                        </div>
-                        {% endif %}
-                        {% if project.duration %}
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Duration:</span>
-                            <span class="font-semibold">{{ project.duration }}</span>
-                        </div>
-                        {% endif %}
-                        {% if project.budget %}
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Budget:</span>
-                            <span class="font-semibold">${{ project.budget }}</span>
-                        </div>
+                            {% if project.year_label %}
+                            <div>
+                                <dt class="text-ink-400 text-xs uppercase tracking-wide mb-1">Year</dt>
+                                <dd class="font-semibold text-ink-900">{{ project.year_label }}</dd>
+                            </div>
+                            {% endif %}
+                            {% if project.client_name %}
+                            <div>
+                                <dt class="text-ink-400 text-xs uppercase tracking-wide mb-1">Client</dt>
+                                <dd class="font-semibold text-ink-900">{{ project.client_name }}</dd>
+                            </div>
+                            {% endif %}
+                            <div>
+                                <dt class="text-ink-400 text-xs uppercase tracking-wide mb-1">Project value</dt>
+                                <dd class="font-semibold text-ink-900">{{ project.value_display }}</dd>
+                            </div>
+                            {% if project.role %}
+                            <div>
+                                <dt class="text-ink-400 text-xs uppercase tracking-wide mb-1">Our role</dt>
+                                <dd class="font-semibold text-ink-900">{{ project.role }}</dd>
+                            </div>
+                            {% endif %}
+                            {% if project.service %}
+                            <div>
+                                <dt class="text-ink-400 text-xs uppercase tracking-wide mb-1">Service</dt>
+                                <dd><a href="{{ project.service.get_absolute_url }}" class="font-semibold text-amber-600 hover:text-amber-700">{{ project.service.title }}</a></dd>
+                            </div>
+                            {% endif %}
+                        </dl>
+
+                        {% if project.delivered_with %}
+                        <p class="mt-5 pt-5 border-t border-ink-100 text-xs text-ink-500 leading-relaxed">
+                            Delivered with {{ project.delivered_with }}, where our founder held the
+                            role stated above.
+                        </p>
                         {% endif %}
                     </div>
-                </div>
-                
-                <!-- Testimonial -->
-                {% if project.client_testimonial %}
-                <div class="bg-primary-600 text-white rounded-2xl p-8">
-                    <i class="fas fa-quote-left text-3xl mb-4 opacity-50"></i>
-                    <p class="text-lg italic mb-6">{{ project.client_testimonial }}</p>
-                    <div class="border-t border-primary-500 pt-4">
-                        <div class="font-semibold">{{ project.client_name }}</div>
-                        {% if project.client_company %}
-                        <div class="text-primary-200 text-sm">{{ project.client_company }}</div>
-                        {% endif %}
+
+                    <div class="rounded-2xl bg-ink-950 text-white p-7">
+                        <h3 class="font-display text-lg font-bold mb-3">Planning something similar?</h3>
+                        <p class="text-sm text-ink-300 leading-relaxed mb-5">
+                            We would be glad to talk through what your project would involve.
+                        </p>
+                        <a href="{% url 'pages:contact' %}{% if project.service %}?service={{ project.service.pk }}{% endif %}"
+                           class="w-full inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-ink-950 font-semibold py-3.5 rounded-lg transition">
+                            Get a quote <i class="fa-solid fa-arrow-right text-sm"></i>
+                        </a>
                     </div>
                 </div>
-                {% endif %}
-                
-                <!-- CTA -->
-                <div class="bg-secondary-500 text-white rounded-2xl p-8 text-center">
-                    <i class="fas fa-calendar-check text-3xl mb-4"></i>
-                    <h3 class="text-xl font-bold mb-4">Start Your Project</h3>
-                    <p class="text-secondary-100 mb-6">Ready to create something amazing?</p>
-                    <a href="{% url 'pages:contact' %}?service={{ project.service.title }}" 
-                       class="bg-white text-secondary-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-block w-full">
-                        Get Free Quote
-                    </a>
-                </div>
-            </div>
+            </aside>
+
         </div>
     </div>
 </section>
 
-<!-- Related Projects -->
 {% if related_projects %}
-<section class="py-20 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">Related Projects</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<section class="py-16 bg-stone-50 border-t border-ink-100">
+    <div class="max-w-content mx-auto px-4 sm:px-6">
+        <h2 class="font-display text-2xl sm:text-3xl font-bold text-ink-900 mb-8">Related projects</h2>
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {% for related in related_projects %}
-            <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover-lift">
-                <div class="relative h-48">
-                    <img src="{{ related.featured_image.url }}" 
-                         alt="{{ related.title }}"
-                         class="w-full h-full object-cover">
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">{{ related.title }}</h3>
-                    <p class="text-gray-600 text-sm mb-4">{{ related.short_description|truncatewords:15 }}</p>
-                    <a href="{% url 'projects:detail' related.slug %}" 
-                       class="text-primary-600 font-semibold hover:text-primary-700 inline-flex items-center text-sm">
-                        View Project
-                        <i class="fas fa-arrow-right ml-1"></i>
-                    </a>
-                </div>
-            </div>
+                {% include 'projects/_card.html' with project=related %}
             {% endfor %}
         </div>
     </div>
 </section>
 {% endif %}
+
 {% endblock %}
