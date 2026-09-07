@@ -1,387 +1,221 @@
-<!DOCTYPE html>
+{% load static %}<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Laswo Studios - Premium Construction Services{% endblock %}</title>
-    
-    <!-- Tailwind CSS -->
+
+    <title>{% block title %}{{ company.name }} - {{ company.tagline }}{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}{{ company.name }} designs and builds homes, resorts and institutional buildings across Kenya - from concept drawings through to construction supervision.{% endblock %}">
+
+    <link rel="canonical" href="{{ request.build_absolute_uri }}">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="{{ company.name }}">
+    <meta property="og:title" content="{% block og_title %}{{ company.name }} - {{ company.tagline }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Design and build for homes, resorts and institutional buildings across Kenya.{% endblock %}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    {% block og_image %}{% endblock %}
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" href="{% static 'images/laswo-logo.svg' %}" type="image/svg+xml">
+
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Custom Tailwind Config -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            200: '#bae6fd',
-                            300: '#7dd3fc',
-                            400: '#38bdf8',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            700: '#0369a1',
-                            800: '#075985',
-                            900: '#0c4a6e',
-                        },
-                        secondary: {
-                            50: '#fffbeb',
-                            100: '#fef3c7',
-                            200: '#fde68a',
-                            300: '#fcd34d',
-                            400: '#fbbf24',
-                            500: '#f59e0b',
-                            600: '#d97706',
-                            700: '#b45309',
-                            800: '#92400e',
-                            900: '#78350f',
-                        },
-                        accent: {
-                            500: '#10b981',
-                            600: '#059669',
-                        }
+                        ink:    { 50:'#f6f7f8', 100:'#eaecef', 200:'#d3d7dd', 300:'#adb4bf',
+                                  400:'#808b9b', 500:'#616d7e', 600:'#4d5766', 700:'#3f4653',
+                                  800:'#363c46', 900:'#22262d', 950:'#15181d' },
+                        amber:  { 50:'#fffaeb', 100:'#fef0c7', 200:'#fedf89', 300:'#fec84b',
+                                  400:'#fdb022', 500:'#f79009', 600:'#dc6803', 700:'#b54708',
+                                  800:'#93370d', 900:'#7a2e0e' },
+                        stone:  { 50:'#faf9f7', 100:'#f2efea', 200:'#e6e0d6' },
                     },
                     fontFamily: {
-                        'sans': ['Inter', 'system-ui', 'sans-serif'],
-                        'heading': ['Poppins', 'system-ui', 'sans-serif'],
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        display: ['Fraunces', 'Georgia', 'serif'],
                     },
-                    animation: {
-                        'fade-in': 'fadeIn 0.6s ease-in-out',
-                        'slide-up': 'slideUp 0.8s ease-out',
-                        'float': 'float 3s ease-in-out infinite',
-                    },
-                    backgroundImage: {
-                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-                        'construction-pattern': "url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%230ea5e9\" fill-opacity=\"0.05\"%3E%3Cpath d=\"M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')",
-                    }
+                    maxWidth: { content: '1200px' },
                 }
             }
         }
     </script>
-    
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Base Styles -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
     <style>
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        .animate-fade-in {
-            animation: fadeIn 0.8s ease-out;
-        }
-        
-        .animate-slide-up {
-            animation: slideUp 1s ease-out;
-        }
-        
-        .animate-float {
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .hover-lift {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .hover-lift:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-        
-        .text-gradient {
-            background: linear-gradient(135deg, #0ea5e9 0%, #f59e0b 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .bg-gradient-premium {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        
-        .bg-gradient-sunset {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
-        
-        .bg-gradient-ocean {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        }
-        
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-        
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #0ea5e9 0%, #f59e0b 100%);
-            border-radius: 4px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, #0284c7 0%, #d97706 100%);
+        html { scroll-behavior: smooth; }
+        body { -webkit-font-smoothing: antialiased; }
+        .lift { transition: transform .3s cubic-bezier(.4,0,.2,1), box-shadow .3s; }
+        .lift:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -20px rgba(0,0,0,.35); }
+        /* Placeholder for projects that have no photograph yet. */
+        .blueprint {
+            background-color: #22262d;
+            background-image:
+                linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+            background-size: 28px 28px;
         }
     </style>
-    
-    {% block extra_css %}{% endblock %}
+    {% block extra_head %}{% endblock %}
 </head>
-<body class="font-sans bg-gray-50">
-    <!-- Enhanced Navigation -->
-    <nav class="fixed w-full bg-white/95 backdrop-blur-md z-50 shadow-lg border-b border-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center py-4">
-                <!-- Logo -->
-                <div class="flex items-center">
-                    <a href="{% url 'pages:home' %}" class="text-2xl font-heading font-bold text-primary-700 flex items-center space-x-2">
-                        <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center">
-                            <i class="fas fa-hammer text-white text-lg"></i>
-                        </div>
-                        <span>Laswo Studios</span>
-                    </a>
-                </div>
+<body class="bg-white text-ink-800 font-sans antialiased">
 
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="{% url 'pages:home' %}" class="text-gray-700 hover:text-primary-600 font-medium transition-all duration-300 hover:scale-105">Home</a>
-                    <a href="{% url 'services:list' %}" class="text-gray-700 hover:text-primary-600 font-medium transition-all duration-300 hover:scale-105">Services</a>
-                    <a href="{% url 'projects:list' %}" class="text-gray-700 hover:text-primary-600 font-medium transition-all duration-300 hover:scale-105">Projects</a>
-                    <a href="{% url 'blog:list' %}" class="text-gray-700 hover:text-primary-600 font-medium transition-all duration-300 hover:scale-105">Blog</a>
-                    <a href="{% url 'pages:about' %}" class="text-gray-700 hover:text-primary-600 font-medium transition-all duration-300 hover:scale-105">About</a>
-                    
-                    {% if user.is_staff %}
-                    <a href="{% url 'admin:index' %}" class="text-gray-700 hover:text-primary-600 font-medium transition-all duration-300 hover:scale-105">
-                        <i class="fas fa-cog mr-1"></i>Admin
-                    </a>
-                    {% endif %}
-                    
-                    <a href="{% url 'pages:contact' %}" class="bg-gradient-to-r from-primary-500 to-primary-600 text-white px-6 py-2 rounded-xl font-semibold hover:from-primary-600 hover:to-primary-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
-                        Get Quote
-                    </a>
-                </div>
+<header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-ink-100">
+    <nav class="max-w-content mx-auto px-4 sm:px-6">
+        <div class="flex items-center justify-between h-16 sm:h-20">
+            <a href="{% url 'pages:home' %}" class="flex items-center gap-3 group">
+                <span class="w-10 h-10 rounded-lg bg-ink-900 text-amber-400 grid place-items-center shrink-0">
+                    <i class="fa-solid fa-compass-drafting"></i>
+                </span>
+                <span class="leading-tight">
+                    <span class="block font-display font-700 text-lg text-ink-900">{{ company.name }}</span>
+                    <span class="block text-[11px] tracking-wide uppercase text-ink-400">{{ company.tagline }}</span>
+                </span>
+            </a>
 
-                <!-- Mobile menu button -->
-                <div class="md:hidden">
-                    <button id="mobile-menu-button" class="text-gray-700 hover:text-primary-600 transition-colors duration-200 p-2 rounded-lg hover:bg-gray-100">
-                        <i class="fas fa-bars text-xl"></i>
-                    </button>
-                </div>
+            <div class="hidden lg:flex items-center gap-8">
+                {% url 'pages:home' as u_home %}
+                {% url 'services:list' as u_services %}
+                {% url 'projects:list' as u_projects %}
+                {% url 'pages:about' as u_about %}
+                {% url 'blog:list' as u_blog %}
+                <a href="{{ u_home }}" class="text-sm font-medium {% if request.path == u_home %}text-amber-600{% else %}text-ink-600 hover:text-ink-900{% endif %} transition">Home</a>
+                <a href="{{ u_services }}" class="text-sm font-medium {% if '/services/' in request.path %}text-amber-600{% else %}text-ink-600 hover:text-ink-900{% endif %} transition">Services</a>
+                <a href="{{ u_projects }}" class="text-sm font-medium {% if '/projects/' in request.path %}text-amber-600{% else %}text-ink-600 hover:text-ink-900{% endif %} transition">Projects</a>
+                <a href="{{ u_about }}" class="text-sm font-medium {% if request.path == u_about %}text-amber-600{% else %}text-ink-600 hover:text-ink-900{% endif %} transition">About</a>
+                <a href="{{ u_blog }}" class="text-sm font-medium {% if '/blog/' in request.path %}text-amber-600{% else %}text-ink-600 hover:text-ink-900{% endif %} transition">Insights</a>
             </div>
 
-            <!-- Mobile Menu -->
-            <div id="mobile-menu" class="hidden md:hidden py-4 border-t border-gray-200 bg-white/95 backdrop-blur-md rounded-b-2xl shadow-lg">
-                <div class="flex flex-col space-y-4">
-                    <a href="{% url 'pages:home' %}" class="text-gray-700 hover:text-primary-600 font-medium py-2 px-4 rounded-lg hover:bg-primary-50 transition-all duration-200">Home</a>
-                    <a href="{% url 'services:list' %}" class="text-gray-700 hover:text-primary-600 font-medium py-2 px-4 rounded-lg hover:bg-primary-50 transition-all duration-200">Services</a>
-                    <a href="{% url 'projects:list' %}" class="text-gray-700 hover:text-primary-600 font-medium py-2 px-4 rounded-lg hover:bg-primary-50 transition-all duration-200">Projects</a>
-                    <a href="{% url 'blog:list' %}" class="text-gray-700 hover:text-primary-600 font-medium py-2 px-4 rounded-lg hover:bg-primary-50 transition-all duration-200">Blog</a>
-                    <a href="{% url 'pages:about' %}" class="text-gray-700 hover:text-primary-600 font-medium py-2 px-4 rounded-lg hover:bg-primary-50 transition-all duration-200">About</a>
-                    
-                    {% if user.is_staff %}
-                    <a href="{% url 'admin:index' %}" class="text-gray-700 hover:text-primary-600 font-medium py-2 px-4 rounded-lg hover:bg-primary-50 transition-all duration-200">
-                        <i class="fas fa-cog mr-2"></i>Admin Panel
-                    </a>
-                    {% endif %}
-                    
-                    <a href="{% url 'pages:contact' %}" class="bg-gradient-to-r from-primary-500 to-primary-600 text-white py-3 px-4 rounded-xl font-semibold text-center hover:from-primary-600 hover:to-primary-700 transition-all duration-300 shadow-lg mt-2">
-                        Get Free Quote
-                    </a>
-                </div>
+            <div class="hidden lg:flex items-center gap-4">
+                <a href="tel:{{ company.phone_link }}" class="text-sm font-semibold text-ink-700 hover:text-amber-600 transition">
+                    <i class="fa-solid fa-phone text-xs mr-1.5"></i>{{ company.phone }}
+                </a>
+                <a href="{% url 'pages:contact' %}" class="bg-ink-900 hover:bg-ink-800 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition">
+                    Get a Quote
+                </a>
+            </div>
+
+            <button type="button" id="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"
+                    class="lg:hidden w-10 h-10 grid place-items-center text-ink-900 rounded-lg hover:bg-ink-50">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" hidden class="lg:hidden pb-4 border-t border-ink-100 pt-3">
+            <div class="flex flex-col gap-1">
+                <a href="{% url 'pages:home' %}" class="px-3 py-2.5 rounded-lg text-ink-700 hover:bg-ink-50 font-medium">Home</a>
+                <a href="{% url 'services:list' %}" class="px-3 py-2.5 rounded-lg text-ink-700 hover:bg-ink-50 font-medium">Services</a>
+                <a href="{% url 'projects:list' %}" class="px-3 py-2.5 rounded-lg text-ink-700 hover:bg-ink-50 font-medium">Projects</a>
+                <a href="{% url 'pages:about' %}" class="px-3 py-2.5 rounded-lg text-ink-700 hover:bg-ink-50 font-medium">About</a>
+                <a href="{% url 'blog:list' %}" class="px-3 py-2.5 rounded-lg text-ink-700 hover:bg-ink-50 font-medium">Insights</a>
+                <a href="tel:{{ company.phone_link }}" class="px-3 py-2.5 rounded-lg text-ink-700 hover:bg-ink-50 font-medium">
+                    <i class="fa-solid fa-phone text-xs mr-2"></i>{{ company.phone }}
+                </a>
+                <a href="{% url 'pages:contact' %}" class="mt-2 bg-ink-900 text-white text-center font-semibold px-5 py-3 rounded-lg">Get a Quote</a>
             </div>
         </div>
     </nav>
+</header>
 
-    <!-- Main Content -->
-    <main class="pt-16">
-        {% block content %}
-        {% endblock %}
-    </main>
-
-    <!-- Enhanced Footer -->
-    <footer class="bg-gradient-to-br from-gray-900 to-gray-800 text-white pt-20 pb-8 relative overflow-hidden">
-        <!-- Background Pattern -->
-        <div class="absolute inset-0 opacity-5 bg-construction-pattern"></div>
-        
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Company Info -->
-                <div class="lg:col-span-2">
-                    <div class="flex items-center space-x-3 mb-6">
-                        <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center">
-                            <i class="fas fa-hammer text-white text-xl"></i>
-                        </div>
-                        <h3 class="text-2xl font-heading font-bold">Laswo Studios</h3>
-                    </div>
-                    <p class="text-gray-300 mb-6 text-lg leading-relaxed">
-                        Transforming visions into exceptional living spaces. With over a decade of expertise, we build dreams with precision, quality, and unmatched craftsmanship.
-                    </p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center hover:bg-primary-700 transition-colors duration-200">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center hover:bg-primary-700 transition-colors duration-200">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center hover:bg-primary-700 transition-colors duration-200">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center hover:bg-primary-700 transition-colors duration-200">
-                            <i class="fab fa-pinterest-p"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Quick Links -->
-                <div>
-                    <h4 class="font-heading font-semibold text-lg mb-6 text-white">Quick Links</h4>
-                    <ul class="space-y-3">
-                        <li><a href="{% url 'pages:home' %}" class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group">
-                            <i class="fas fa-chevron-right text-primary-400 mr-2 text-xs group-hover:translate-x-1 transition-transform duration-200"></i>
-                            Home
-                        </a></li>
-                        <li><a href="{% url 'services:list' %}" class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group">
-                            <i class="fas fa-chevron-right text-primary-400 mr-2 text-xs group-hover:translate-x-1 transition-transform duration-200"></i>
-                            Services
-                        </a></li>
-                        <li><a href="{% url 'projects:list' %}" class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group">
-                            <i class="fas fa-chevron-right text-primary-400 mr-2 text-xs group-hover:translate-x-1 transition-transform duration-200"></i>
-                            Projects
-                        </a></li>
-                        <li><a href="{% url 'blog:list' %}" class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group">
-                            <i class="fas fa-chevron-right text-primary-400 mr-2 text-xs group-hover:translate-x-1 transition-transform duration-200"></i>
-                            Blog
-                        </a></li>
-                        <li><a href="{% url 'pages:about' %}" class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group">
-                            <i class="fas fa-chevron-right text-primary-400 mr-2 text-xs group-hover:translate-x-1 transition-transform duration-200"></i>
-                            About Us
-                        </a></li>
-                    </ul>
-                </div>
-
-                <!-- Contact Info -->
-                <div>
-                    <h4 class="font-heading font-semibold text-lg mb-6 text-white">Contact Info</h4>
-                    <div class="space-y-4">
-                        <div class="flex items-start space-x-3 group">
-                            <div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1 group-hover:scale-110 transition-transform duration-200">
-                                <i class="fas fa-phone text-white text-sm"></i>
-                            </div>
-                            <div>
-                                <div class="text-gray-300 group-hover:text-white transition-colors duration-200">+254 728-145-945</div>
-                                <div class="text-gray-400 text-sm">Mon-Fri from 8am to 6pm</div>
-                            </div>
-                        </div>
-                        <div class="flex items-start space-x-3 group">
-                            <div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1 group-hover:scale-110 transition-transform duration-200">
-                                <i class="fas fa-envelope text-white text-sm"></i>
-                            </div>
-                            <div>
-                                <div class="text-gray-300 group-hover:text-white transition-colors duration-200">info@laswostudios.com</div>
-                                <div class="text-gray-400 text-sm">We respond within 24 hours</div>
-                            </div>
-                        </div>
-                        <div class="flex items-start space-x-3 group">
-                            <div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1 group-hover:scale-110 transition-transform duration-200">
-                                <i class="fas fa-map-marker-alt text-white text-sm"></i>
-                            </div>
-                            <div>
-                                <div class="text-gray-300 group-hover:text-white transition-colors duration-200">123 Construction Avenue</div>
-                                <div class="text-gray-400 text-sm">Suite 100, City, State 12345</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="border-t border-gray-700 mt-12 pt-8 text-center">
-                <p class="text-gray-400">&copy; 2024 Laswo Studios. All rights reserved. | Built with <i class="fas fa-heart text-red-400 mx-1"></i> and precision craftsmanship</p>
-            </div>
-                <div>
-    <h4 class="font-heading font-semibold text-lg mb-6">Quick Links</h4>
-    <ul class="space-y-3">
-        <!-- other links -->
-        {% if user.is_authenticated and user.is_staff %}
-        <li><a href="{% url 'admin:index' %}" class="text-gray-300 hover:text-white transition-colors">Admin Panel</a></li>
-        <li><a href="{% url 'admin:logout' %}" class="text-gray-300 hover:text-white transition-colors">Logout</a></li>
-        {% endif %}
-    </ul>
+{% if messages %}
+<div class="max-w-content mx-auto px-4 sm:px-6 pt-6">
+    {% for message in messages %}
+    <div class="flex items-start gap-3 rounded-lg px-4 py-3 mb-3 text-sm
+                {% if message.tags == 'success' %}bg-green-50 text-green-900 border border-green-200
+                {% elif message.tags == 'error' %}bg-red-50 text-red-900 border border-red-200
+                {% else %}bg-ink-50 text-ink-800 border border-ink-200{% endif %}">
+        <i class="fa-solid {% if message.tags == 'success' %}fa-circle-check{% elif message.tags == 'error' %}fa-circle-exclamation{% else %}fa-circle-info{% endif %} mt-0.5"></i>
+        <span>{{ message }}</span>
+    </div>
+    {% endfor %}
 </div>
+{% endif %}
 
+<main>{% block content %}{% endblock %}</main>
+
+<footer class="bg-ink-950 text-ink-300 mt-24">
+    <div class="max-w-content mx-auto px-4 sm:px-6 py-14">
+        <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+            <div class="lg:col-span-2 max-w-sm">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="w-10 h-10 rounded-lg bg-amber-500 text-ink-950 grid place-items-center">
+                        <i class="fa-solid fa-compass-drafting"></i>
+                    </span>
+                    <span class="font-display font-bold text-lg text-white">{{ company.name }}</span>
+                </div>
+                <p class="text-sm leading-relaxed text-ink-400">
+                    Architectural design and build for homes, resorts and institutional
+                    buildings across Kenya. Led by {{ company.founder }}, with over a
+                    decade of design and site experience.
+                </p>
+            </div>
+
+            <div>
+                <h3 class="text-white font-semibold text-sm uppercase tracking-wide mb-4">Explore</h3>
+                <ul class="space-y-2.5 text-sm">
+                    <li><a href="{% url 'services:list' %}" class="hover:text-amber-400 transition">Services</a></li>
+                    <li><a href="{% url 'projects:list' %}" class="hover:text-amber-400 transition">Projects</a></li>
+                    <li><a href="{% url 'pages:about' %}" class="hover:text-amber-400 transition">About</a></li>
+                    <li><a href="{% url 'blog:list' %}" class="hover:text-amber-400 transition">Insights</a></li>
+                    <li><a href="{% url 'pages:contact' %}" class="hover:text-amber-400 transition">Get a Quote</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="text-white font-semibold text-sm uppercase tracking-wide mb-4">Contact</h3>
+                <ul class="space-y-3 text-sm">
+                    <li class="flex gap-3">
+                        <i class="fa-solid fa-phone text-amber-500 mt-1 w-4"></i>
+                        <a href="tel:{{ company.phone_link }}" class="hover:text-amber-400 transition">{{ company.phone }}</a>
+                    </li>
+                    <li class="flex gap-3">
+                        <i class="fa-brands fa-whatsapp text-amber-500 mt-1 w-4"></i>
+                        <a href="https://wa.me/{{ company.whatsapp }}" rel="noopener" class="hover:text-amber-400 transition">WhatsApp us</a>
+                    </li>
+                    <li class="flex gap-3">
+                        <i class="fa-solid fa-envelope text-amber-500 mt-1 w-4"></i>
+                        <a href="mailto:{{ company.email }}" class="hover:text-amber-400 transition break-all">{{ company.email }}</a>
+                    </li>
+                    <li class="flex gap-3">
+                        <i class="fa-solid fa-location-dot text-amber-500 mt-1 w-4"></i>
+                        <span>{{ company.po_box }}</span>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </footer>
 
-    <!-- JavaScript -->
-    <script>
-        // Mobile menu toggle
-        document.addEventListener('DOMContentLoaded', function() {
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            
-            if (mobileMenuButton && mobileMenu) {
-                mobileMenuButton.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    mobileMenu.classList.toggle('hidden');
-                });
-            }
+        <div class="mt-12 pt-6 border-t border-ink-800 flex flex-col sm:flex-row gap-3 justify-between items-center text-xs text-ink-500">
+            <p>&copy; {% now "Y" %} {{ company.name }}. All rights reserved.</p>
+            <p>{{ company.tagline }} &middot; {{ company.location }}</p>
+        </div>
+    </div>
+</footer>
 
-            // Close mobile menu when clicking outside
-            document.addEventListener('click', function() {
-                if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-                    mobileMenu.classList.add('hidden');
-                }
-            });
+<a href="https://wa.me/{{ company.whatsapp }}" rel="noopener" aria-label="Chat on WhatsApp"
+   class="fixed bottom-5 right-5 z-40 w-14 h-14 rounded-full bg-[#25D366] text-white grid place-items-center shadow-lg hover:scale-105 transition">
+    <i class="fa-brands fa-whatsapp text-2xl"></i>
+</a>
 
-            // Prevent menu from closing when clicking inside
-            if (mobileMenu) {
-                mobileMenu.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                });
-            }
+<script>
+    (function () {
+        var btn = document.getElementById('menu-btn');
+        var menu = document.getElementById('mobile-menu');
+        btn.addEventListener('click', function () {
+            var open = !menu.hidden;
+            menu.hidden = open;
+            btn.setAttribute('aria-expanded', String(!open));
+            btn.innerHTML = open
+                ? '<i class="fa-solid fa-bars text-xl"></i>'
+                : '<i class="fa-solid fa-xmark text-xl"></i>';
         });
-
-        // Add scroll effect to navbar
-        window.addEventListener('scroll', function() {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 100) {
-                nav.classList.add('shadow-xl');
-                nav.classList.remove('shadow-lg');
-            } else {
-                nav.classList.remove('shadow-xl');
-                nav.classList.add('shadow-lg');
-            }
-        });
-    </script>
-
-    {% block extra_js %}{% endblock %}
+    })();
+</script>
+{% block extra_js %}{% endblock %}
 </body>
 </html>

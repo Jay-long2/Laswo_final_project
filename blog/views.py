@@ -1,121 +1,104 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.db.models import Count, Q
+from django.contrib import messages
 from django.core.paginator import Paginator
-from .models import Post, Category, Tag, Comment, NewsletterSubscriber
+from django.db.models import Count, F, Q
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 
-# Create your views here.
+from .models import Category, NewsletterSubscriber, Post, Tag
+
+
 def post_list(request):
     posts_list = Post.objects.filter(status='published').select_related('author', 'category')
-    
-    # Get filter parameters
+
     category_slug = request.GET.get('category')
     tag_slug = request.GET.get('tag')
     query = request.GET.get('q')
-    
+
     if category_slug:
         posts_list = posts_list.filter(category__slug=category_slug)
     if tag_slug:
         posts_list = posts_list.filter(tags__slug=tag_slug)
     if query:
         posts_list = posts_list.filter(
-            Q(title__icontains=query) |
-            Q(excerpt__icontains=query) |
-            Q(content__icontains=query)
+            Q(title__icontains=query)
+            | Q(excerpt__icontains=query)
+            | Q(content__icontains=query)
         )
-    
-    # Pagination
-    paginator = Paginator(posts_list, 6)  # 6 posts per page
-    page_number = request.GET.get('page')
-    posts = paginator.get_page(page_number)
-    
-    categories = Category.objects.annotate(post_count=Count('posts'))
-    featured_posts = Post.objects.filter(status='published', is_featured=True)[:3]
-    recent_posts = Post.objects.filter(status='published').exclude(id__in=[p.id for p in featured_posts])[:5]
-    
+
+    paginator = Paginator(posts_list, 6)
+    posts = paginator.get_page(request.GET.get('page'))
+
     context = {
         'posts': posts,
-        'featured_posts': featured_posts,
-        'recent_posts': recent_posts,
-        'categories': categories,
-        'active_filters': {
-            'category': category_slug,
-            'tag': tag_slug,
-            'query': query,
-        }
+        'categories': Category.objects.annotate(post_count=Count('posts')),
+        'active_category': category_slug or '',
+        'active_tag': tag_slug or '',
+        'query': query or '',
     }
     return render(request, 'blog/list.html', context)
 
+
+def category_detail(request, slug):
+    """Categories are shown as a filter on the list page."""
+    category = get_object_or_404(Category, slug=slug)
+    return redirect(f"{reverse('blog:list')}?category={category.slug}")
+
+
+def tag_detail(request, slug):
+    """Tags are shown as a filter on the list page."""
+    tag = get_object_or_404(Tag, slug=slug)
+    return redirect(f"{reverse('blog:list')}?tag={tag.slug}")
+
+
 def post_detail(request, slug):
-    post = get_object_or_404(Post, slug=slug, status='published')
-    
-    # Increment view count
-    post.view_count += 1
-    post.save()
-    
-    # Get related posts (same category, excluding current post)
-    related_posts = Post.objects.filter(
-        category=post.category,
-        status='published'
-    ).exclude(id=post.id)[:3]
-    
-    # Get approved comments
-    comments = post.comments.filter(is_approved=True)
-    
+    post = get_object_or_404(
+        Post.objects.select_related('author', 'category'), slug=slug, status='published'
+    )
+
+    # Atomic bump: avoids the lost-update race and leaves updated_at alone.
+    Post.objects.filter(pk=post.pk).update(view_count=F('view_count') + 1)
+
     context = {
         'post': post,
-        'related_posts': related_posts,
-        'comments': comments,
+        'related_posts': Post.objects.filter(
+            category=post.category, status='published'
+        ).exclude(pk=post.pk)[:3],
+        'comments': post.comments.filter(is_approved=True),
     }
     return render(request, 'blog/detail.html', context)
 
-def category_detail(request, slug):
-    category = get_object_or_404(Category, slug=slug)
-    posts = Post.objects.filter(category=category, status='published')
-    
-    context = {
-        'category': category,
-        'posts': posts,
-    }
-    return render(request, 'blog/category.html', context)
-
-def tag_detail(request, slug):
-    tag = get_object_or_404(Tag, slug=slug)
-    posts = Post.objects.filter(tags=tag, status='published')
-    
-    context = {
-        'tag': tag,
-        'posts': posts,
-    }
-    return render(request, 'blog/tag.html', context)
 
 def add_comment(request, slug):
+    post = get_object_or_404(Post, slug=slug, status='published')
+
     if request.method == 'POST':
-        post = get_object_or_404(Post, slug=slug)
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        website = request.POST.get('website', '')
-        content = request.POST.get('content')
-        
+        # Honeypot: bots fill every field, people never see this one.
+        if request.POST.get('website'):
+            return redirect(post)
+
+        name = (request.POST.get('name') or '').strip()
+        email = (request.POST.get('email') or '').strip()
+        content = (request.POST.get('content') or '').strip()
+
         if name and email and content:
-            Comment.objects.create(
-                post=post,
-                name=name,
-                email=email,
-                website=website,
-                content=content
-            )
-            # In a real app, you might want to send an email notification here
-        
-    return redirect('blog:detail', slug=slug)
+            post.comments.create(name=name, email=email, content=content)
+            messages.success(request, 'Thank you. Your comment will appear once approved.')
+        else:
+            messages.error(request, 'Please fill in your name, email and comment.')
+
+    return redirect(post)
+
 
 def newsletter_subscribe(request):
     if request.method == 'POST':
-        email = request.POST.get('email')
+        email = (request.POST.get('email') or '').strip()
         if email:
             NewsletterSubscriber.objects.get_or_create(
-                email=email,
-                defaults={'is_active': True}
+                email=email, defaults={'is_active': True}
             )
-            # In a real app, you might want to send a welcome email here
-    
-    return redirect(request.META.get('HTTP_REFERER', 'blog:list'))
+            messages.success(request, 'You are subscribed. Thank you.')
+        else:
+            messages.error(request, 'Please enter a valid email address.')
+
+    # Never redirect to a user-supplied header - that is an open redirect.
+    return redirect('blog:list')

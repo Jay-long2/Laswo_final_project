@@ -3,17 +3,17 @@ from django.urls import reverse
 
 class Service(models.Model):
     SERVICE_CATEGORIES = [
-        ('renovation', 'House Renovations'),
-        ('landscaping', 'Landscaping'),
-        ('roofing', 'Roofing Solutions'),
-        ('construction', 'New Construction'),
-        ('other', 'Other Services'),
+        ('design', 'Architectural Design'),
+        ('build', 'Design & Build'),
+        ('supervision', 'Construction Supervision'),
+        ('renovation', 'Renovations & Extensions'),
+        ('hospitality', 'Resort & Hospitality'),
     ]
     
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
     category = models.CharField(max_length=20, choices=SERVICE_CATEGORIES)
-    short_description = models.TextField(max_length=200)
+    short_description = models.TextField(max_length=300)
     full_description = models.TextField()
     icon = models.CharField(max_length=100, help_text="FontAwesome icon class")
     featured_image = models.ImageField(upload_to='services/', blank=True)

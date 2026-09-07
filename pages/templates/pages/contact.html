@@ -1,153 +1,147 @@
 {% extends 'pages/base.html' %}
 
-{% block title %}Contact Us - Laswo Studios{% endblock %}
+{% block title %}Get a Quote - {{ company.name }}{% endblock %}
+{% block meta_description %}Tell us about your project and we will come back to you with what is realistic and what it will take. Call {{ company.phone }} or send an enquiry.{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 class="text-5xl font-bold mb-6">Get In Touch</h1>
-        <p class="text-xl text-primary-100 max-w-3xl mx-auto">
-            Ready to start your project? Contact us for a free consultation and quote.
+
+<section class="bg-ink-950 text-white">
+    <div class="max-w-content mx-auto px-4 sm:px-6 py-16 sm:py-20">
+        <p class="text-xs font-semibold uppercase tracking-widest text-amber-400 mb-4">Get in touch</p>
+        <h1 class="font-display text-4xl sm:text-5xl font-bold mb-4 max-w-2xl">Let's talk about your project</h1>
+        <p class="text-ink-300 text-lg max-w-2xl leading-relaxed">
+            The more you can tell us up front &mdash; plot size, rooms, storeys, budget,
+            timeline &mdash; the more useful our first reply will be.
         </p>
     </div>
 </section>
 
-<!-- Contact Section -->
-<section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <!-- Contact Info -->
-            <div>
-                <h2 class="text-4xl font-bold text-gray-900 mb-8">Let's Talk About Your Project</h2>
-                
-                <div class="space-y-6 mb-8">
-                    <div class="flex items-start space-x-4">
-                        <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-phone text-primary-600"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-gray-900 text-lg">Call Us</h3>
-                            <p class="text-gray-600">+254 728-145-945</p>
-                            <p class="text-sm text-gray-500">Mon-Fri from 8am to 6pm</p>
-                        </div>
-                    </div>
+<section class="py-16 sm:py-20">
+    <div class="max-w-content mx-auto px-4 sm:px-6">
+        <div class="grid lg:grid-cols-5 gap-10 lg:gap-14">
 
-                    <div class="flex items-start space-x-4">
-                        <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-envelope text-primary-600"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-gray-900 text-lg">Email Us</h3>
-                            <p class="text-gray-600">info@laswostudios.com</p>
-                            <p class="text-sm text-gray-500">We'll respond within 24 hours</p>
-                        </div>
-                    </div>
+            {# ---------------------------------------------------- Details #}
+            <div class="lg:col-span-2">
+                <h2 class="font-display text-2xl font-bold text-ink-900 mb-6">Reach us directly</h2>
 
-                    <div class="flex items-start space-x-4">
-                        <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-map-marker-alt text-primary-600"></i>
-                        </div>
+                <ul class="space-y-5 mb-10">
+                    <li class="flex gap-4">
+                        <span class="w-11 h-11 shrink-0 rounded-lg bg-ink-900 text-amber-400 grid place-items-center">
+                            <i class="fa-solid fa-phone"></i>
+                        </span>
                         <div>
-                            <h3 class="font-semibold text-gray-900 text-lg">Visit Us</h3>
-                            <p class="text-gray-600">123 Construction Avenue<br>Suite 100<br>City, State 12345</p>
+                            <div class="text-xs uppercase tracking-wide text-ink-400 mb-0.5">Phone</div>
+                            <a href="tel:{{ company.phone_link }}" class="font-semibold text-ink-900 hover:text-amber-600 transition">{{ company.phone }}</a>
                         </div>
-                    </div>
-                </div>
+                    </li>
+                    <li class="flex gap-4">
+                        <span class="w-11 h-11 shrink-0 rounded-lg bg-[#25D366] text-white grid place-items-center">
+                            <i class="fa-brands fa-whatsapp text-lg"></i>
+                        </span>
+                        <div>
+                            <div class="text-xs uppercase tracking-wide text-ink-400 mb-0.5">WhatsApp</div>
+                            <a href="https://wa.me/{{ company.whatsapp }}" rel="noopener" class="font-semibold text-ink-900 hover:text-amber-600 transition">Send a message</a>
+                        </div>
+                    </li>
+                    <li class="flex gap-4">
+                        <span class="w-11 h-11 shrink-0 rounded-lg bg-ink-900 text-amber-400 grid place-items-center">
+                            <i class="fa-solid fa-envelope"></i>
+                        </span>
+                        <div>
+                            <div class="text-xs uppercase tracking-wide text-ink-400 mb-0.5">Email</div>
+                            <a href="mailto:{{ company.email }}" class="font-semibold text-ink-900 hover:text-amber-600 transition break-all">{{ company.email }}</a>
+                        </div>
+                    </li>
+                    <li class="flex gap-4">
+                        <span class="w-11 h-11 shrink-0 rounded-lg bg-ink-900 text-amber-400 grid place-items-center">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </span>
+                        <div>
+                            <div class="text-xs uppercase tracking-wide text-ink-400 mb-0.5">Postal address</div>
+                            <span class="font-semibold text-ink-900">{{ company.po_box }}</span>
+                        </div>
+                    </li>
+                </ul>
 
-                <!-- Service Areas -->
-                <div class="bg-gray-50 rounded-2xl p-6">
-                    <h3 class="font-semibold text-gray-900 text-lg mb-4">Service Areas</h3>
-                    <div class="grid grid-cols-2 gap-2 text-sm text-gray-600">
-                        <div class="flex items-center">
-                            <i class="fas fa-check text-primary-500 mr-2"></i>
-                            Residential Construction
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-check text-primary-500 mr-2"></i>
-                            Commercial Renovation
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-check text-primary-500 mr-2"></i>
-                            Landscaping Design
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-check text-primary-500 mr-2"></i>
-                            Roofing Services
-                        </div>
-                    </div>
+                <div class="rounded-xl bg-stone-100 border border-ink-100 p-6">
+                    <h3 class="font-semibold text-ink-900 mb-3">What happens next</h3>
+                    <ol class="space-y-3 text-sm text-ink-600">
+                        <li class="flex gap-3">
+                            <span class="w-6 h-6 shrink-0 rounded-full bg-amber-500 text-ink-950 grid place-items-center text-xs font-bold">1</span>
+                            We read your enquiry and call or write back to fill in the gaps.
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="w-6 h-6 shrink-0 rounded-full bg-amber-500 text-ink-950 grid place-items-center text-xs font-bold">2</span>
+                            We visit or review the site and agree the scope with you.
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="w-6 h-6 shrink-0 rounded-full bg-amber-500 text-ink-950 grid place-items-center text-xs font-bold">3</span>
+                            You get a written proposal with a fee and a programme.
+                        </li>
+                    </ol>
                 </div>
             </div>
 
-            <!-- Contact Form -->
-            <div class="bg-gray-50 rounded-2xl p-8">
-                <h3 class="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h3>
-                <form class="space-y-6">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div>
-                            <label for="first-name" class="block text-sm font-medium text-gray-700 mb-2">First Name</label>
-                            <input type="text" id="first-name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+            {# ------------------------------------------------------- Form #}
+            <div class="lg:col-span-3">
+                <div class="rounded-2xl border border-ink-100 bg-white p-6 sm:p-8 shadow-sm">
+                    <h2 class="font-display text-2xl font-bold text-ink-900 mb-1">Send an enquiry</h2>
+                    <p class="text-sm text-ink-500 mb-7">Fields marked with an asterisk are required.</p>
+
+                    <form method="post" action="{% url 'pages:contact' %}" novalidate class="space-y-5">
+                        {% csrf_token %}
+
+                        {% if form.non_field_errors %}
+                        <div class="rounded-lg bg-red-50 border border-red-200 text-red-900 text-sm px-4 py-3">
+                            {% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}
                         </div>
-                        <div>
-                            <label for="last-name" class="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
-                            <input type="text" id="last-name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                        {% endif %}
+
+                        {# Honeypot - visually hidden, not display:none, so bots still find it. #}
+                        <div aria-hidden="true" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+                            {{ form.website }}
                         </div>
-                    </div>
 
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                        <input type="email" id="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
-                    </div>
+                        <div class="grid sm:grid-cols-2 gap-5">
+                            {% for field in form %}
+                                {% if field.name != 'website' and field.name != 'message' %}
+                                <div{% if field.name == 'location' %} class="sm:col-span-2"{% endif %}>
+                                    <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-ink-700 mb-2">
+                                        {{ field.label }}{% if field.field.required %} <span class="text-red-500">*</span>{% endif %}
+                                    </label>
+                                    {{ field }}
+                                    {% for error in field.errors %}
+                                        <p class="mt-1.5 text-sm text-red-600">{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
 
-                    <div>
-                        <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-                        <input type="tel" id="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
-                    </div>
+                        <div>
+                            <label for="{{ form.message.id_for_label }}" class="block text-sm font-medium text-ink-700 mb-2">
+                                {{ form.message.label }}{% if form.message.field.required %} <span class="text-red-500">*</span>{% endif %}
+                            </label>
+                            {{ form.message }}
+                            {% for error in form.message.errors %}
+                                <p class="mt-1.5 text-sm text-red-600">{{ error }}</p>
+                            {% endfor %}
+                        </div>
 
-                    <div>
-                        <label for="service" class="block text-sm font-medium text-gray-700 mb-2">Service Interested In</label>
-                        <select id="service" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
-                            <option value="">Select a service</option>
-                            <option value="renovation">House Renovations</option>
-                            <option value="landscaping">Landscaping</option>
-                            <option value="roofing">Roofing Solutions</option>
-                            <option value="other">Other Construction Services</option>
-                        </select>
-                    </div>
+                        <button type="submit"
+                                class="w-full inline-flex items-center justify-center gap-2 bg-ink-900 hover:bg-ink-800 text-white font-semibold py-4 rounded-lg transition">
+                            <i class="fa-solid fa-paper-plane"></i> Send enquiry
+                        </button>
 
-                    <div>
-                        <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Project Details</label>
-                        <textarea id="message" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="Tell us about your project..."></textarea>
-                    </div>
-
-                    <button type="submit" class="w-full bg-primary-600 text-white py-4 rounded-lg font-semibold hover:bg-primary-700 transition-colors shadow-lg hover:shadow-xl">
-                        <i class="fas fa-paper-plane mr-2"></i>
-                        Send Message
-                    </button>
-                </form>
+                        <p class="text-xs text-ink-400 text-center">
+                            We use your details only to reply to this enquiry.
+                        </p>
+                    </form>
+                </div>
             </div>
+
         </div>
     </div>
 </section>
 
-<!-- Map Section -->
-<section class="py-20 bg-gray-100">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12">
-            <h2 class="text-4xl font-bold text-gray-900 mb-4">Find Us</h2>
-            <p class="text-xl text-gray-600">Visit our office or give us a call</p>
-        </div>
-        
-        <!-- Placeholder for Map -->
-        <div class="bg-white rounded-2xl p-8 text-center shadow-sm">
-            <div class="w-full h-64 bg-gradient-to-br from-primary-50 to-secondary-50 rounded-xl flex items-center justify-center">
-                <div class="text-center">
-                    <i class="fas fa-map-marked-alt text-6xl text-primary-500 mb-4"></i>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Interactive Map</h3>
-                    <p class="text-gray-600">Map integration coming soon</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 {% endblock %}

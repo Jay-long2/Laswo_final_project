@@ -1,82 +1,162 @@
 {% extends 'pages/base.html' %}
 
-{% block title %}About Us - Laswo Studios{% endblock %}
+{% block title %}About - {{ company.name }}{% endblock %}
+{% block meta_description %}Laswo Studios is led by Nicholas Kwemoi Ngeywo, an architectural designer with over a decade of experience across residential, hospitality and institutional projects in Kenya.{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 class="text-5xl font-bold mb-6">About Laswo Studios</h1>
-        <p class="text-xl text-primary-100 max-w-3xl mx-auto">
-            Building excellence and transforming spaces for over a decade with unmatched craftsmanship and dedication.
+
+<section class="bg-ink-950 text-white">
+    <div class="max-w-content mx-auto px-4 sm:px-6 py-16 sm:py-20">
+        <p class="text-xs font-semibold uppercase tracking-widest text-amber-400 mb-4">About us</p>
+        <h1 class="font-display text-4xl sm:text-5xl font-bold mb-4 max-w-3xl">
+            A small practice that stays on the job
+        </h1>
+        <p class="text-ink-300 text-lg max-w-2xl leading-relaxed">
+            {{ company.name }} designs and builds across Kenya &mdash; and the person who
+            draws your building is the person who checks it on site.
         </p>
     </div>
 </section>
 
-<!-- Story Section -->
-<section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-                <h2 class="text-4xl font-bold text-gray-900 mb-6">Our Story</h2>
-                <p class="text-lg text-gray-600 mb-6 leading-relaxed">
-                    Founded in 2010, Laswo Studios began as a small family business with a passion for quality construction and attention to detail. What started as a modest renovation company has grown into a full-service construction firm serving residential and commercial clients.
-                </p>
-                <p class="text-lg text-gray-600 mb-6 leading-relaxed">
-                    Our journey has been built on trust, reliability, and an unwavering commitment to excellence. Every project we undertake is treated with the care and precision it deserves, ensuring our clients' visions become reality.
-                </p>
-                <div class="flex items-center space-x-4">
-                    <div class="w-12 h-12 bg-primary-500 rounded-full flex items-center justify-center">
-                        <i class="fas fa-award text-white text-xl"></i>
+{# ------------------------------------------------------------- Founder #}
+<section class="py-16 sm:py-20">
+    <div class="max-w-content mx-auto px-4 sm:px-6">
+        <div class="grid lg:grid-cols-3 gap-10 lg:gap-14">
+
+            <div class="lg:col-span-1">
+                <div class="rounded-2xl bg-ink-950 text-white p-8 sticky top-28">
+                    <span class="w-20 h-20 rounded-xl bg-amber-500 text-ink-950 grid place-items-center font-display font-bold text-2xl mb-5">NN</span>
+                    <h2 class="font-display text-2xl font-bold mb-1">{{ company.founder }}</h2>
+                    <p class="text-amber-400 text-sm font-medium mb-6">{{ company.founder_role }}</p>
+
+                    <dl class="space-y-4 text-sm border-t border-white/10 pt-6">
+                        <div>
+                            <dt class="text-ink-400 text-xs uppercase tracking-wide mb-1">Qualification</dt>
+                            <dd>Diploma in Technology (Architecture)<br>
+                                <span class="text-ink-400">The Technical University of Kenya</span></dd>
+                        </div>
+                        <div>
+                            <dt class="text-ink-400 text-xs uppercase tracking-wide mb-1">In practice since</dt>
+                            <dd>2012</dd>
+                        </div>
+                        <div>
+                            <dt class="text-ink-400 text-xs uppercase tracking-wide mb-1">Software</dt>
+                            <dd>ArchiCAD, AutoCAD, Artlantis, Piranesi</dd>
+                        </div>
+                        <div>
+                            <dt class="text-ink-400 text-xs uppercase tracking-wide mb-1">Languages</dt>
+                            <dd>English, Kiswahili, Kalenjin</dd>
+                        </div>
+                    </dl>
+
+                    <a href="{% url 'pages:contact' %}"
+                       class="mt-7 w-full inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-ink-950 font-semibold py-3 rounded-lg transition">
+                        Work with us <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2">
+                <div class="prose-lg max-w-none">
+                    <h2 class="font-display text-3xl font-bold text-ink-900 mb-5">The short version</h2>
+                    <div class="space-y-4 text-ink-600 leading-relaxed">
+                        <p>
+                            {{ company.name }} is led by <strong class="text-ink-900">{{ company.founder }}</strong>,
+                            an architectural designer who has been in practice since 2012. He holds a
+                            Diploma in Technology (Architecture) from The Technical University of Kenya,
+                            and has spent the years since working across private residences, resort and
+                            hospitality developments, and institutional buildings.
+                        </p>
+                        <p>
+                            His portfolio covers nine disclosed projects with a combined value of around
+                            <strong class="text-ink-900">KES 103 million</strong>, in counties from Nairobi
+                            and Kajiado to Kakamega, Bungoma, Siaya, Baringo, Machakos, Kisumu and Uasin Gishu.
+                            The largest is a maternity wing commissioned by the M-Pesa Foundation at
+                            Likuyani in Kakamega County.
+                        </p>
+                        <p>
+                            Alongside client work, he mentors students on industrial attachment, giving
+                            them practical exposure to both design and site management.
+                        </p>
                     </div>
-                    <div>
-                        <h3 class="font-semibold text-gray-900">Award-Winning Service</h3>
-                        <p class="text-gray-600">Recognized for excellence in construction</p>
+
+                    <h2 class="font-display text-3xl font-bold text-ink-900 mt-14 mb-5">How we work</h2>
+                    <div class="grid sm:grid-cols-2 gap-5">
+                        <div class="p-6 rounded-xl border border-ink-100">
+                            <span class="w-11 h-11 rounded-lg bg-stone-100 text-amber-600 grid place-items-center mb-4">
+                                <i class="fa-solid fa-comments"></i>
+                            </span>
+                            <h3 class="font-semibold text-ink-900 mb-2">We start with your budget</h3>
+                            <p class="text-sm text-ink-600 leading-relaxed">
+                                A design you cannot afford to build is a waste of everyone's time.
+                                We test the budget as the design develops, not after.
+                            </p>
+                        </div>
+                        <div class="p-6 rounded-xl border border-ink-100">
+                            <span class="w-11 h-11 rounded-lg bg-stone-100 text-amber-600 grid place-items-center mb-4">
+                                <i class="fa-solid fa-cube"></i>
+                            </span>
+                            <h3 class="font-semibold text-ink-900 mb-2">You see it before it is built</h3>
+                            <p class="text-sm text-ink-600 leading-relaxed">
+                                Designs are presented in 3D so you are approving a building
+                                you can actually picture, not a floor plan you have to decode.
+                            </p>
+                        </div>
+                        <div class="p-6 rounded-xl border border-ink-100">
+                            <span class="w-11 h-11 rounded-lg bg-stone-100 text-amber-600 grid place-items-center mb-4">
+                                <i class="fa-solid fa-helmet-safety"></i>
+                            </span>
+                            <h3 class="font-semibold text-ink-900 mb-2">We stay on site</h3>
+                            <p class="text-sm text-ink-600 leading-relaxed">
+                                Drawings only protect you if somebody checks the work against
+                                them. We inspect at every stage, from setting out to finishes.
+                            </p>
+                        </div>
+                        <div class="p-6 rounded-xl border border-ink-100">
+                            <span class="w-11 h-11 rounded-lg bg-stone-100 text-amber-600 grid place-items-center mb-4">
+                                <i class="fa-solid fa-user"></i>
+                            </span>
+                            <h3 class="font-semibold text-ink-900 mb-2">One point of contact</h3>
+                            <p class="text-sm text-ink-600 leading-relaxed">
+                                You deal with the person doing the work. Nothing is handed off
+                                to someone you have never met.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-14 rounded-xl bg-stone-100 border border-ink-100 p-6 sm:p-8">
+                        <h3 class="font-display text-xl font-bold text-ink-900 mb-3">A note on scope</h3>
+                        <p class="text-sm text-ink-600 leading-relaxed">
+                            We provide architectural design, design-and-build and construction
+                            supervision services. Where a project requires a registered architect
+                            or engineer to sign off statutory submissions, we work alongside the
+                            appropriate registered professional. Several projects in our portfolio
+                            were delivered with Eco Space Architects, and each project page states
+                            the role held.
+                        </p>
                     </div>
                 </div>
             </div>
-            <div class="bg-gradient-to-br from-primary-50 to-secondary-50 rounded-2xl p-8 text-center">
-                <i class="fas fa-building text-8xl text-primary-500 mb-6"></i>
-                <h3 class="text-2xl font-bold text-gray-900 mb-4">Built on Integrity</h3>
-                <p class="text-gray-600">Quality, trust, and excellence in every project</p>
-            </div>
+
         </div>
     </div>
 </section>
 
-<!-- Values Section -->
-<section class="py-20 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-            <h2 class="text-4xl font-bold text-gray-900 mb-4">Our Values</h2>
-            <p class="text-xl text-gray-600">The principles that guide everything we do</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="text-center p-8 bg-white rounded-2xl shadow-sm hover-lift">
-                <div class="w-20 h-20 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <i class="fas fa-gem text-primary-600 text-2xl"></i>
-                </div>
-                <h3 class="text-2xl font-bold text-gray-900 mb-4">Quality</h3>
-                <p class="text-gray-600">We never compromise on materials or craftsmanship, ensuring every project meets the highest standards.</p>
-            </div>
-
-            <div class="text-center p-8 bg-white rounded-2xl shadow-sm hover-lift">
-                <div class="w-20 h-20 bg-secondary-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <i class="fas fa-handshake text-secondary-600 text-2xl"></i>
-                </div>
-                <h3 class="text-2xl font-bold text-gray-900 mb-4">Integrity</h3>
-                <p class="text-gray-600">Honest communication and transparent pricing build the foundation of trust with our clients.</p>
-            </div>
-
-            <div class="text-center p-8 bg-white rounded-2xl shadow-sm hover-lift">
-                <div class="w-20 h-20 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <i class="fas fa-users text-primary-600 text-2xl"></i>
-                </div>
-                <h3 class="text-2xl font-bold text-gray-900 mb-4">Collaboration</h3>
-                <p class="text-gray-600">We work closely with you throughout the process, ensuring your vision guides every decision.</p>
-            </div>
+{# ----------------------------------------------------------------- CTA #}
+<section class="pb-20 sm:pb-24">
+    <div class="max-w-content mx-auto px-4 sm:px-6">
+        <div class="rounded-2xl bg-ink-950 text-white px-6 sm:px-12 py-14 text-center">
+            <h2 class="font-display text-3xl font-bold mb-4">See the work</h2>
+            <p class="text-ink-300 max-w-xl mx-auto mb-8 leading-relaxed">
+                {{ project_count }} projects across nine counties &mdash; homes, resorts and
+                institutional buildings.
+            </p>
+            <a href="{% url 'projects:list' %}"
+               class="inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-ink-950 font-semibold px-7 py-4 rounded-lg transition">
+                Browse projects <i class="fa-solid fa-arrow-right text-sm"></i>
+            </a>
         </div>
     </div>
 </section>
+
 {% endblock %}
