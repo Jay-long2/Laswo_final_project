@@ -44,12 +44,14 @@ def home(request):
         .select_related('service')[:3]
     )
 
-    # The hero needs a real photograph, which not every project has yet.
-    hero = next((p for p in featured if p.featured_image), None)
+    # The hero wants a finished building rather than a live building site,
+    # so prefer a completed project before falling back to anything with a photo.
+    with_image = [p for p in featured if p.featured_image]
+    hero = next((p for p in with_image if p.status == 'completed'), None)
     if hero is None:
-        hero = Project.objects.filter(
-            is_published=True, featured_image__gt=''
-        ).first()
+        hero = next(iter(with_image), None)
+    if hero is None:
+        hero = Project.objects.filter(is_published=True).exclude(featured_image='').first()
 
     context = {
         'services': Service.objects.filter(is_active=True)[:5],

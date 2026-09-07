@@ -9,7 +9,6 @@ Safe to re-run: everything is matched on slug and updated in place.
 from pathlib import Path
 
 from django.conf import settings
-from django.core.files import File
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
@@ -227,11 +226,6 @@ PROJECTS = [
             'with structural and services detail and set out to meet local authority '
             'requirements.'
         ),
-        'images': [
-            ('projects/gallery/council-diplomat-rear.jpg', 'Rear elevation and garden terrace'),
-            ('projects/gallery/council-diplomat-side.jpg', 'Side elevation showing the entrance court'),
-        ],
-        'featured_image': 'projects/featured/council-diplomat-front.jpg',
     },
     {
         'slug': 'private-residence-kajiado',
@@ -383,11 +377,42 @@ PROJECTS = [
 ]
 
 
+# Images follow a slug convention so they need no per-project wiring:
+#   media/projects/featured/<slug>.jpg      the card and hero image
+#   media/projects/gallery/<slug>-NN.jpg    gallery, in numeric order
+# Only the captions need naming.
+GALLERY_CAPTIONS = {
+    'council-diplomat-residence-02': 'Rear elevation and garden terrace',
+    'council-diplomat-residence-03': 'Side elevation showing the entrance court',
+
+    'palm-court-residence-02': 'Structural frame and roofing under way',
+    'palm-court-residence-03': 'Roof and gable detail nearing completion',
+    'palm-court-residence-04': 'Finishing works in progress on the front elevation',
+    'palm-court-residence-05': 'Entrance colonnade detail',
+    'palm-court-residence-06': 'Verandah columns and eaves under construction',
+
+    'mpesa-foundation-maternity-wing-02': 'Roofing works over the main ward block',
+    'private-residence-cheptais-02': 'Nearing completion, with scaffolding still in place',
+    'private-residence-kajiado-02': 'Stonework and gable detail',
+    'residential-renovation-chemelil-02': 'The original bungalow, before work began',
+    'kayaki-resort-sun-deck-and-pool-02': 'Elevated sun deck and access stair under construction',
+    'mariga-resort-cottages-02': 'Proposed A-frame cottage in its landscape setting',
+    'gitonga-resort-02': 'Multi-level A-frame cottages stepped into the hillside',
+
+    'hill-top-hotel-and-resort-02': 'Cottage structure and roof framing on site',
+    'hill-top-hotel-and-resort-03': 'A completed cottage shell on its stone base',
+    'hill-top-hotel-and-resort-04': 'Roof cladding complete on one of the cottages',
+    'hill-top-hotel-and-resort-05': 'Gable glazing seen from the lake side',
+    'hill-top-hotel-and-resort-06': 'Interior view out through the gable glazing',
+}
+
+
 class Command(BaseCommand):
     help = "Seed services and the project portfolio from Laswo Studios' real records."
 
     @transaction.atomic
     def handle(self, *args, **options):
+        self.verbosity = options['verbosity']
         services = {}
 
         for data in SERVICES:
@@ -404,32 +429,22 @@ class Command(BaseCommand):
                     service=service, title=title, description=description, icon=icon
                 )
 
-            self.stdout.write(
-                f"  {'created' if created else 'updated'} service: {service.title}"
-            )
+            self._log(f"  {'created' if created else 'updated'} service: {service.title}")
 
         for order, data in enumerate(PROJECTS, start=1):
             data = dict(data)
             slug = data.pop('slug')
             service_slug = data.pop('service', None)
-            gallery = data.pop('images', [])
-            featured_image = data.pop('featured_image', None)
 
             data['service'] = services.get(service_slug)
             data['display_order'] = order
 
             project, created = Project.objects.update_or_create(slug=slug, defaults=data)
+            images = self._attach_images(project)
 
-            if featured_image:
-                self._attach(project, featured_image)
-
-            if gallery:
-                project.images.all().delete()
-                for image_order, (path, caption) in enumerate(gallery, start=1):
-                    self._attach_gallery(project, path, caption, image_order)
-
-            self.stdout.write(
-                f"  {'created' if created else 'updated'} project: {project.title}"
+            self._log(
+                f"  {'created' if created else 'updated'} project: {project.title} "
+                f"({images} image{'' if images == 1 else 's'})"
             )
 
         # Retire anything left over from the old sample data rather than
@@ -438,27 +453,48 @@ class Command(BaseCommand):
         for service in stale:
             service.is_active = False
             service.save(update_fields=['is_active'])
-            self.stdout.write(self.style.WARNING(f'  retired stale service: {service.title}'))
+            self._log(f'  retired stale service: {service.title}', self.style.WARNING)
 
-        self.stdout.write(self.style.SUCCESS(
+        self._log(
             f'\nSeeded {Service.objects.count()} services and '
-            f'{Project.objects.count()} projects.'
-        ))
+            f'{Project.objects.count()} projects.',
+            self.style.SUCCESS,
+        )
 
-    def _attach(self, project, relative_path):
-        """Point the project at an image already sitting in MEDIA_ROOT."""
-        full = Path(settings.MEDIA_ROOT) / relative_path
-        if not full.exists():
-            self.stderr.write(self.style.WARNING(f'    missing image: {relative_path}'))
-            return
-        project.featured_image.name = relative_path
-        project.save(update_fields=['featured_image'])
+    def _log(self, message, style=None):
+        if self.verbosity:
+            self.stdout.write(style(message) if style else message)
 
-    def _attach_gallery(self, project, relative_path, caption, order):
-        full = Path(settings.MEDIA_ROOT) / relative_path
-        if not full.exists():
-            self.stderr.write(self.style.WARNING(f'    missing image: {relative_path}'))
-            return
-        image = ProjectImage(project=project, caption=caption, display_order=order)
-        image.image.name = relative_path
-        image.save()
+    def _attach_images(self, project):
+        """Wire up images already sitting in MEDIA_ROOT, by slug convention.
+
+        Files are referenced in place rather than re-saved, so re-running the
+        command does not pile up duplicates like image_1.jpg, image_2.jpg.
+        """
+        media = Path(settings.MEDIA_ROOT)
+        count = 0
+
+        featured = f'projects/featured/{project.slug}.jpg'
+        if (media / featured).exists():
+            project.featured_image.name = featured
+            project.save(update_fields=['featured_image'])
+            count += 1
+        else:
+            self._log(
+                f'    no featured image for {project.slug} - using placeholder',
+                self.style.WARNING,
+            )
+
+        project.images.all().delete()
+        gallery = sorted((media / 'projects' / 'gallery').glob(f'{project.slug}-*.jpg'))
+        for order, path in enumerate(gallery, start=1):
+            image = ProjectImage(
+                project=project,
+                caption=GALLERY_CAPTIONS.get(path.stem, ''),
+                display_order=order,
+            )
+            image.image.name = f'projects/gallery/{path.name}'
+            image.save()
+            count += 1
+
+        return count
